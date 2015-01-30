@@ -1,4 +1,4 @@
-James Extensions Module Changes
+JAMES Extensions Module Changes
 ===============================
 
 Version 0.2.1 (under development)
@@ -21,4 +21,4 @@ Version 0.2 (12/11/2014)
 Version 0.1 (25/06/2014)
 ------------------------
 
- - First stable release of the James Extensions Module.
+ - First stable release of the JAMES Extensions Module.
