@@ -14,7 +14,7 @@
     <packaging>jar</packaging>
     <name>james-extensions</name>
     <description>
-        The James extensions module is part of the James framework for discrete optimization
+        The JAMES extensions module is part of the JAMES framework for discrete optimization
         using local search metaheuristics in Java. It extends the core with additional tools
         for advanced problem specification and search customization. It also provides specific
         components for some other problem types besides subset selection (e.g. permutation problems).
