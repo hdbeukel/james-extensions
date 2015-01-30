@@ -1,7 +1,7 @@
-James Extensions Module
+JAMES Extensions Module
 =======================
 
-The James extensions module is part of the [James framework][james-github].
+The JAMES extensions module is part of the [JAMES framework][james-github].
 
 This module extends the core with additional tools
 for advanced problem specification and search customization. It also provides reusable
@@ -16,13 +16,13 @@ Additional developer documentation is posted on the [wiki][james-wiki].
 License and copyright
 =====================
 
-The James extensions module is licensed under the Apache License, Version 2.0, see LICENSE file or http://www.apache.org/licenses/LICENSE-2.0.
+The JAMES extensions module is licensed under the Apache License, Version 2.0, see LICENSE file or http://www.apache.org/licenses/LICENSE-2.0.
 Copyright information is stated in the NOTICE file.
 
 Contact
 =======
 
-The James extensions module is developed and maintained by
+The JAMES extensions module is developed and maintained by
 
  - Herman De Beukelaer (Herman.DeBeukelaer@UGent.be)
  
