@@ -1,0 +1,30 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+branches:
+  only:
+    - master
+  
+env:
+  global:
+    - JAMES_GH_REF=github.com/hdbeukel/james.git
+    - SONATYPE_USERNAME=hdbeukel
+    - secure: "QFkJVqCl0Q7V7/JjdWbfM/kIKwxczq9KIYd++kBJy/dLwJ7hpb+NGZGFN7wypy7hUIUmyTFmasHZuGryWMmJ9gqao1tS8mHI2+6ANWz69sYUZqL/NrCpJ9TFshYreECNVRKojTcutcTphQILkOVVRk6q/Xm4venJI1NUUKmOYRY="
+    - secure: "YrbZO+jndVte3JUs3ivo4vW+LPQ8J7IGHmJnLpbSgzSbnHUPcrK19dWUONn0EEfbEXlFnflLCmtJufbqlTx190I7/0I5AJEn4PYEeVOY4GrfiRvpXbAkdgR73UEdt3iHfIiRdVibtPmXBpnYm88JGL7UkJ/jonq5ID7mLV84JuY="
+  
+after_success:
+  - mvn coveralls:report
+  - python .travis/add-sonatype-server.py
+  - mvn clean deploy -DskipTests=true --settings ~/.m2/mySettings.xml
+  - git clone --branch=gh-pages git://github.com/hdbeukel/james.git site
+  - cd site
+  - cp -R ../target/apidocs/* api/ext/snapshot/
+  - git config user.name "Herman De Beukelaer"
+  - git config user.email "herman.debeukelaer@gmail.com"
+  - git add api
+  - git commit -m "updated snapshot API (extensions)"
+  - git push "https://${JAMES_GH_TOKEN}@${JAMES_GH_REF}" gh-pages
+
+
