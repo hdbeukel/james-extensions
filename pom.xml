@@ -20,7 +20,9 @@
         components for some other problem types besides subset selection (e.g. permutation problems).
     </description>
     <scm>
-      <url>https://github.com/hdbeukel/james/tree/master/james/james-extensions</url>
+        <connection>scm:git:git@github.com:hdbeukel/james-extensions.git</connection>
+        <developerConnection>scm:git:git@github.com:hdbeukel/james-extensions.git</developerConnection>
+        <url>https://github.com/hdbeukel/james-extensions</url>
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
