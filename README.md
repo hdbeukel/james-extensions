@@ -1,6 +1,8 @@
 JAMES Extensions Module
 =======================
 
+[![Build Status](https://img.shields.io/travis/hdbeukel/james-extensions.svg?style=flat)](https://travis-ci.org/hdbeukel/james-extensions)
+[![Coverage Status](http://img.shields.io/coveralls/hdbeukel/james-extensions.svg?style=flat)](https://coveralls.io/r/hdbeukel/james-extensions)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.jamesframework/james-extensions/badge.svg?style=flat)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22james-extensions%22)
 
 The JAMES extensions module is part of the [JAMES framework][james-github].
