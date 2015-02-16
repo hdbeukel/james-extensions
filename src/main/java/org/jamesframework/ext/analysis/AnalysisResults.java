@@ -92,11 +92,11 @@ public class AnalysisResults<SolutionType extends Solution> {
      * 
      * @param problemID ID of the problem
      * @return number of different searches applied to solve the problem
-     * @throws NoSuchElementException if an unknown problem ID is given
+     * @throws UnknownIDException if an unknown problem ID is given
      */
     public int numSearches(String problemID){
         if(!results.containsKey(problemID)){
-            throw new NoSuchElementException("Unknown problem ID " + problemID + ".");
+            throw new UnknownIDException("Unknown problem ID " + problemID + ".");
         }
         return results.get(problemID).size();
     }
@@ -107,11 +107,11 @@ public class AnalysisResults<SolutionType extends Solution> {
      * 
      * @param problemID ID of the problem
      * @return IDs of different searches applied to solve the problem
-     * @throws NoSuchElementException if an unknown problem ID is given
+     * @throws UnknownIDException if an unknown problem ID is given
      */
     public Collection<String> getSearchIDs(String problemID){
         if(!results.containsKey(problemID)){
-            throw new NoSuchElementException("Unknown problem ID " + problemID + ".");
+            throw new UnknownIDException("Unknown problem ID " + problemID + ".");
         }
         return Collections.unmodifiableCollection(results.get(problemID).keySet());
     }
@@ -122,35 +122,35 @@ public class AnalysisResults<SolutionType extends Solution> {
      * @param problemID ID of the problem
      * @param searchID ID of the applied search
      * @return number of performed runs of the given search when solving the given problem
-     * @throws NoSuchElementException if an unknown problem or search ID is given
+     * @throws UnknownIDException if an unknown problem or search ID is given
      */
     public int numRuns(String problemID, String searchID){
         if(!results.containsKey(problemID)){
-            throw new NoSuchElementException("Unknown problem ID " + problemID + ".");
+            throw new UnknownIDException("Unknown problem ID " + problemID + ".");
         }
         if(!results.get(problemID).containsKey(searchID)){
-            throw new NoSuchElementException("Unknown search ID " + searchID + " for problem " + problemID + ".");
+            throw new UnknownIDException("Unknown search ID " + searchID + " for problem " + problemID + ".");
         }
         return results.get(problemID).get(searchID).size();
     }
     
     /**
-     * Get the results of the i-th performed run of the given search when solving the given problem
-     * (unmodifiable list view).
+     * Get the results of the i-th performed run of the given search when solving the given
+     * problem (unmodifiable list view).
      * 
      * @param problemID ID of the problem
      * @param searchID ID of the applied search
      * @param i search run index
      * @return results of i-th run of the given search when solving the given problem
-     * @throws NoSuchElementException if an unknown problem or search ID is given
+     * @throws UnknownIDException if an unknown problem or search ID is given
      * @throws IndexOutOfBoundsException if there is no i-th run for this search and problem
      */
     public List<BestSolutionUpdate<SolutionType>> getRun(String problemID, String searchID, int i){
         if(!results.containsKey(problemID)){
-            throw new NoSuchElementException("Unknown problem ID " + problemID + ".");
+            throw new UnknownIDException("Unknown problem ID " + problemID + ".");
         }
         if(!results.get(problemID).containsKey(searchID)){
-            throw new NoSuchElementException("Unknown search ID " + searchID + " for problem " + problemID + ".");
+            throw new UnknownIDException("Unknown search ID " + searchID + " for problem " + problemID + ".");
         }
         return Collections.unmodifiableList(results.get(problemID).get(searchID).get(i));
     }
