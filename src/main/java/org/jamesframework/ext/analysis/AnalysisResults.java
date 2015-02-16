@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import mjson.Json;
 import org.jamesframework.core.problems.Solution;
 
@@ -82,8 +83,8 @@ public class AnalysisResults<SolutionType extends Solution> {
      * 
      * @return IDs of analyzed problems
      */
-    public Collection<String> getProblemIDs(){
-        return Collections.unmodifiableCollection(results.keySet());
+    public Set<String> getProblemIDs(){
+        return Collections.unmodifiableSet(results.keySet());
     }
     
     /**
@@ -101,18 +102,18 @@ public class AnalysisResults<SolutionType extends Solution> {
     }
     
     /**
-     * Get the IDs of the different searches that have been applied to solve the problem with the given ID
-     * (unmodifiable view).
+     * Get the IDs of the different searches that have been applied to solve the problem with the
+     * given ID (unmodifiable view).
      * 
      * @param problemID ID of the problem
      * @return IDs of different searches applied to solve the problem
      * @throws UnknownIDException if an unknown problem ID is given
      */
-    public Collection<String> getSearchIDs(String problemID){
+    public Set<String> getSearchIDs(String problemID){
         if(!results.containsKey(problemID)){
             throw new UnknownIDException("Unknown problem ID " + problemID + ".");
         }
-        return Collections.unmodifiableCollection(results.get(problemID).keySet());
+        return Collections.unmodifiableSet(results.get(problemID).keySet());
     }
     
     /**
