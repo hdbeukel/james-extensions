@@ -18,7 +18,6 @@ package org.jamesframework.ext.analysis;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import org.jamesframework.core.problems.Solution;
 import org.jamesframework.core.subset.SubsetSolution;
 import org.jamesframework.test.util.TestConstants;
 import org.junit.AfterClass;
