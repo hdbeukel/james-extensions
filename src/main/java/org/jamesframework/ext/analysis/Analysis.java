@@ -64,6 +64,10 @@ public class Analysis<SolutionType extends Solution> {
     private int numRuns;
     // search specific number of runs, overriding global run count if set
     private final Map<String, Integer> searchNumRuns;
+    // global number of burn-in runs
+    private int numBurnIn;
+    // search specific number of burn-in runs, overriding global burn-in if set
+    private final Map<String, Integer> searchNumBurnIn;
     
     /**
      * Create an analysis object. The number of performed runs of each search defaults to 10.
@@ -72,7 +76,9 @@ public class Analysis<SolutionType extends Solution> {
         problems = new HashMap<>();
         searches = new HashMap<>();
         searchNumRuns = new HashMap<>();
+        searchNumBurnIn = new HashMap<>();
         numRuns = 10;
+        numBurnIn = 1;
     }
     
     /**
@@ -81,7 +87,7 @@ public class Analysis<SolutionType extends Solution> {
      * be changed using {@link #setNumRuns(int)}. To set a search specific numer of runs,
      * use {@link #setNumRuns(String, int)}.
      * 
-     * @return number of performed search runs
+     * @return number of performed search runs (global setting)
      */
     public int getNumRuns(){
         return numRuns;
@@ -101,6 +107,50 @@ public class Analysis<SolutionType extends Solution> {
             throw new IllegalArgumentException("Number of runs should be strictly positive.");
         }
         numRuns = n;
+        return this;
+    }
+    
+    /**
+     * <p>
+     * Get the global number of additional burn-in runs that will be performed for every applied
+     * search for which no search specific number of burn-in runs has been set. Burn-in runs are
+     * executed before the actual search runs and not registered in the results, to "warm up" the
+     * analysis in order to reduce the influence of just in time compilation (JIT) and on the fly
+     * optimizations performed by the JVM.
+     * </p>
+     * <p>
+     * Defaults to 1 and can be changed using {@link #setNumBurnIn(int)}. To set a search specific
+     * number of additional burn-in runs, use {@link #setNumBurnIn(String, int)}.
+     * </p>
+     * 
+     * @return number of performed burn-in runs (global setting)
+     */
+    public int getNumBurnIn(){
+        return numBurnIn;
+    }
+    
+    /**
+     * <p>
+     * Set the global number of additional burn-in runs that will be performed for every applied
+     * search for which no search specific number of burn-in runs is set. Burn-in runs are
+     * executed before the actual search runs and not registered in the results, to "warm up" the
+     * analysis in order to reduce the influence of just in time compilation (JIT) and on the fly
+     * optimizations performed by the JVM.
+     * </p>
+     * <p>
+     * To set a search specific number of additional burn-in runs, use {@link #setNumBurnIn(String, int)}.
+     * Returns a reference to the analysis object on which this method was called so that methods can be chained.
+     * </p>
+     * 
+     * @param n global number of additional burn-in runs to be performed
+     * @return reference to the analysis object on which this method was called
+     * @throws IllegalArgumentException if <code>n</code> is not strictly positive
+     */
+    public Analysis<SolutionType> setNumBurnIn(int n){
+        if(n <= 0){
+            throw new IllegalArgumentException("Number of burn-in runs should be strictly positive.");
+        }
+        numBurnIn = n;
         return this;
     }
     
@@ -139,6 +189,46 @@ public class Analysis<SolutionType extends Solution> {
             throw new IllegalArgumentException("Number of runs should be strictly positive.");
         }
         searchNumRuns.put(searchID, n);
+        return this;
+    }
+    
+    /**
+     * Get the number of additional burn-in runs that will be performed for the search with the given ID.
+     * If no specific number of burn-in runs has been set for this search using {@link #setNumBurnIn(String, int)},
+     * the global value obtained from {@link #getNumBurnIn()} is returned. Burn-in runs are executed before the
+     * actual search runs and not registered in the results, to "warm up" the analysis in order to reduce the
+     * influence of just in time compilation (JIT) and on the fly optimizations performed by the JVM.
+     * 
+     * @param searchID ID of the search
+     * @return number of additional burn-in runs that will be performed for this search
+     * @throws UnknownIDException if no search with this ID has been added
+     */
+    public int getNumBurnIn(String searchID){
+        if(!searches.containsKey(searchID)){
+            throw new UnknownIDException("No search with ID " + searchID + " has been added.");
+        }
+        return searchNumBurnIn.getOrDefault(searchID, getNumBurnIn());
+    }
+    
+    /**
+     * Set the number of additional burn-in runs to be performed for the given search. This does not affect
+     * the number of burn-in runs of the other searches. Returns a reference to the analysis object on which
+     * this method was called so that methods can be chained.
+     * 
+     * @param searchID ID of the search
+     * @param n number of additional burn-in runs to be performed for this specific search
+     * @return reference to the analysis object on which this method was called
+     * @throws UnknownIDException if no search with this ID has been added
+     * @throws IllegalArgumentException if <code>n</code> is not strictly positive
+     */
+    public Analysis<SolutionType> setNumBurnIn(String searchID, int n){
+        if(!searches.containsKey(searchID)){
+            throw new UnknownIDException("No search with ID " + searchID + " has been added.");
+        }
+        if(n <= 0){
+            throw new IllegalArgumentException("Number of burn-in runs should be strictly positive.");
+        }
+        searchNumBurnIn.put(searchID, n);
         return this;
     }
         
@@ -212,7 +302,23 @@ public class Analysis<SolutionType extends Solution> {
             LOGGER.info(ANALYSIS_MARKER, "Analyzing problem {}.", problemID);
             // apply all searches
             searches.forEach((searchID, searchFactory) -> {
-                // iterate for desired number of runs
+                // execute burn-in runs
+                int nBurnIn = getNumBurnIn(searchID);
+                for(int burnIn=0; burnIn<nBurnIn; burnIn++){
+                    LOGGER.info(ANALYSIS_MARKER,
+                                "Burn-in of search {} applied to problem {} (burn-in run {}/{}).",
+                                searchID, problemID, burnIn+1, nBurnIn);
+                    // create search
+                    Search<SolutionType> search = searchFactory.create(problem);
+                    // run search
+                    search.start();
+                    // dispose search
+                    search.dispose();
+                    LOGGER.info(ANALYSIS_MARKER,
+                                "Finished burn-in run {}/{} of search {} for problem {}.",
+                                burnIn+1, nBurnIn, searchID, problemID);
+                }
+                // perform actual search runs and register results
                 int nRuns = getNumRuns(searchID);
                 for(int run=0; run<nRuns; run++){
                     LOGGER.info(ANALYSIS_MARKER,

@@ -16,8 +16,13 @@
 
 package org.jamesframework.ext.analysis;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import mjson.Json;
 import org.jamesframework.core.search.Search;
 import org.jamesframework.core.search.algo.RandomDescent;
 import org.jamesframework.core.search.algo.RandomSearch;
@@ -29,6 +34,8 @@ import org.jamesframework.core.subset.algo.exh.SubsetSolutionIterator;
 import org.jamesframework.core.subset.neigh.SingleSwapNeighbourhood;
 import org.jamesframework.test.fakes.ScoredFakeSubsetData;
 import org.jamesframework.test.fakes.SumOfScoresFakeSubsetObjective;
+import org.jamesframework.test.util.DoubleComparatorWithPrecision;
+import org.jamesframework.test.util.TestConstants;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -171,6 +178,111 @@ public class AnalysisTest {
     }
     
     @Test
+    public void testGetNumBurnIn() {
+        
+        System.out.println(" - test getNumBurnIn");
+        
+        assertEquals(1, analysis.getNumBurnIn());
+        
+    }
+    
+    @Test
+    public void testSetNumBurnIn() {
+        
+        System.out.println(" - test setNumBurnIn");
+        
+        boolean thrown = false;
+        try {
+            analysis.setNumBurnIn(-1);
+        } catch (IllegalArgumentException ex){
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        thrown = false;
+        try {
+            analysis.setNumBurnIn(0);
+        } catch (IllegalArgumentException ex){
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        analysis.setNumBurnIn(123);
+        assertEquals(123, analysis.getNumBurnIn());
+        
+    }
+    
+    @Test
+    public void testGetNumBurnInForSearch() {
+        
+        System.out.println(" - test getNumBurnIn for specific search");
+        
+        boolean thrown = false;
+        try {
+            analysis.getNumBurnIn("i-do-not-exist");
+        } catch (UnknownIDException ex){
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        // add a search
+        analysis.addSearch("abc", p -> new RandomSearch<>(p));
+        
+        // verify: automatically adopts global run count
+        assertEquals(1, analysis.getNumBurnIn("abc"));
+        
+    }
+    
+    @Test
+    public void testSetNumBurnInForSearch() {
+        
+        System.out.println(" - test setNumBurnIn for specific search");
+        
+        boolean thrown = false;
+        try {
+            analysis.setNumBurnIn("i-do-not-exist", 100);
+        } catch (UnknownIDException ex){
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        // add a search
+        analysis.addSearch("abc", p -> new ExhaustiveSearch<>(p, null));
+        
+        // try invalid run counts
+        thrown = false;
+        try {
+            analysis.setNumBurnIn("abc", -1);
+        } catch (IllegalArgumentException ex){
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        thrown = false;
+        try {
+            analysis.setNumBurnIn("abc", 0);
+        } catch (IllegalArgumentException ex){
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        // set specific run count
+        analysis.setNumBurnIn("abc", 5);
+        
+        // verify
+        assertEquals(5, analysis.getNumBurnIn("abc"));
+        
+        // check global setting not affected
+        assertEquals(1, analysis.getNumBurnIn());
+        
+        // add second search
+        analysis.addSearch("xyz", p -> new RandomSearch<>(p));
+        // check: adopts global run count
+        assertEquals(1, analysis.getNumBurnIn("xyz"));
+        
+    }
+    
+    @Test
     public void testAddProblem() {
         
         System.out.println(" - test addProblem");
@@ -232,7 +344,7 @@ public class AnalysisTest {
     }
     
     @Test
-    public void testRun() {
+    public void testRun() throws IOException {
         
         System.out.println(" - test run");
         
@@ -278,8 +390,47 @@ public class AnalysisTest {
         
         // check results
         
-        // ...
+        assertEquals(2, results.getNumProblems());
+        assertEquals(new HashSet<>(Arrays.asList("small", "larger")), results.getProblemIDs());
+        assertEquals(2, results.getNumSearches("small"));
+        assertEquals(2, results.getNumSearches("larger"));
+        assertEquals(new HashSet<>(Arrays.asList("exh", "random.descent")), results.getSearchIDs("small"));
+        assertEquals(new HashSet<>(Arrays.asList("exh", "random.descent")), results.getSearchIDs("larger"));
         
+        assertEquals(1, results.getNumRuns("small", "exh"));
+        assertEquals(10, results.getNumRuns("small", "random.descent"));
+        assertEquals(1, results.getNumRuns("larger", "exh"));
+        assertEquals(10, results.getNumRuns("larger", "random.descent"));
+        
+        check(results, "small", "exh", 3);
+        check(results, "small", "random.descent", 3);
+        check(results, "larger", "exh", 4);
+        check(results, "larger", "random.descent", 4);
+        
+        // results.writeJSON("test.json", s -> Json.array(s.getSelectedIDs().toArray()));
+        
+    }
+    
+    private void check(AnalysisResults<SubsetSolution> results, String problem, String search, int subsetSize){
+        int numRuns = results.getNumRuns(problem, search);
+        for(int r=0; r<numRuns; r++){
+            List<BestSolutionUpdate<SubsetSolution>> updates = results.getRun(problem, search, r);
+            // check
+            for(int u=0; u<updates.size(); u++){
+                BestSolutionUpdate<SubsetSolution> cur, prev;
+                cur = updates.get(u);
+                if(u >= 1){
+                    prev = updates.get(u-1);
+                    assertTrue(cur.getTime() >= prev.getTime());
+                    assertTrue(DoubleComparatorWithPrecision.greaterThanOrEqual(
+                                    cur.getValue(),
+                                    prev.getValue(),
+                                    TestConstants.DOUBLE_COMPARISON_PRECISION)
+                    );
+                }
+                assertEquals(subsetSize, cur.getSolution().getNumSelectedIDs());
+            }
+        }
     }
 
 }
