@@ -94,8 +94,12 @@ public class Analysis<SolutionType extends Solution> {
      * 
      * @param n global number of search runs to be performed
      * @return reference to the analysis object on which this method was called
+     * @throws IllegalArgumentException if <code>n</code> is not strictly positive
      */
     public Analysis<SolutionType> setNumRuns(int n){
+        if(n <= 0){
+            throw new IllegalArgumentException("Number of runs should be strictly positive.");
+        }
         numRuns = n;
         return this;
     }
@@ -125,10 +129,14 @@ public class Analysis<SolutionType extends Solution> {
      * @param n number of runs to be performed for this specific search
      * @return reference to the analysis object on which this method was called
      * @throws UnknownIDException if no search with this ID has been added
+     * @throws IllegalArgumentException if <code>n</code> is not strictly positive
      */
     public Analysis<SolutionType> setNumRuns(String searchID, int n){
         if(!searches.containsKey(searchID)){
             throw new UnknownIDException("No search with ID " + searchID + " has been added.");
+        }
+        if(n <= 0){
+            throw new IllegalArgumentException("Number of runs should be strictly positive.");
         }
         searchNumRuns.put(searchID, n);
         return this;
@@ -142,8 +150,12 @@ public class Analysis<SolutionType extends Solution> {
      * @param problem problem to be added to the analysis
      * @return reference to the analysis object on which this method was called
      * @throws DuplicateIDException if a problem has already been added with the specified ID
+     * @throws NullPointerException if <code>problem</code> is <code>null</code>
      */
     public Analysis<SolutionType> addProblem(String ID, Problem<SolutionType> problem){
+        if(problem == null){
+            throw new NullPointerException("Problem can not be null.");
+        }
         if(problems.containsKey(ID)){
             throw new DuplicateIDException("Duplicate problem ID: " + ID + ".");
         }
@@ -161,8 +173,12 @@ public class Analysis<SolutionType extends Solution> {
      * @param searchFactory factory that creates a search given the problem to be solved
      * @return reference to the analysis object on which this method was called
      * @throws DuplicateIDException if a search has already been added with the specified ID
+     * @throws NullPointerException if <code>searchFactory</code> is <code>null</code>
      */
     public Analysis<SolutionType> addSearch(String ID, SearchFactory<SolutionType> searchFactory){
+        if(searchFactory == null){
+            throw new NullPointerException("Search factory can not be null.");
+        }
         if(searches.containsKey(ID)){
             throw new DuplicateIDException("Duplicate search ID: " + ID + ".");
         }
