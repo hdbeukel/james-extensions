@@ -73,7 +73,7 @@ public class AnalysisResults<SolutionType extends Solution> {
      * 
      * @return number of analyzed problems
      */
-    public int numProblems(){
+    public int getNumProblems(){
         return results.size();
     }
     
@@ -93,7 +93,7 @@ public class AnalysisResults<SolutionType extends Solution> {
      * @return number of different searches applied to solve the problem
      * @throws UnknownIDException if an unknown problem ID is given
      */
-    public int numSearches(String problemID){
+    public int getNumSearches(String problemID){
         if(!results.containsKey(problemID)){
             throw new UnknownIDException("Unknown problem ID " + problemID + ".");
         }
@@ -123,7 +123,7 @@ public class AnalysisResults<SolutionType extends Solution> {
      * @return number of performed runs of the given search when solving the given problem
      * @throws UnknownIDException if an unknown problem or search ID is given
      */
-    public int numRuns(String problemID, String searchID){
+    public int getNumRuns(String problemID, String searchID){
         if(!results.containsKey(problemID)){
             throw new UnknownIDException("Unknown problem ID " + problemID + ".");
         }

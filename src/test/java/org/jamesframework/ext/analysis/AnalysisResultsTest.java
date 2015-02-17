@@ -152,14 +152,14 @@ public class AnalysisResultsTest {
     }
 
     /**
-     * Test of numProblems method, of class AnalysisResults.
+     * Test of getNumProblems method, of class AnalysisResults.
      */
     @Test
-    public void testNumProblems() {
+    public void testGetNumProblems() {
         
-        System.out.println(" - test numProblems");
+        System.out.println(" - test getNumProblems");
         
-        assertEquals(2, results.numProblems());
+        assertEquals(2, results.getNumProblems());
         
     }
 
@@ -176,19 +176,19 @@ public class AnalysisResultsTest {
     }
 
     /**
-     * Test of numSearches method, of class AnalysisResults.
+     * Test of getNumSearches method, of class AnalysisResults.
      */
     @Test
-    public void testNumSearches() {
+    public void testGetNumSearches() {
         
-        System.out.println(" - test numSearches");
+        System.out.println(" - test getNumSearches");
         
-        assertEquals(2, results.numSearches("problem-0"));
-        assertEquals(1, results.numSearches("problem-1"));
+        assertEquals(2, results.getNumSearches("problem-0"));
+        assertEquals(1, results.getNumSearches("problem-1"));
         
         boolean thrown = false;
         try{
-            results.numSearches("i-do-not-exist");
+            results.getNumSearches("i-do-not-exist");
         } catch (UnknownIDException ex) {
             thrown = true;
         }
@@ -218,20 +218,20 @@ public class AnalysisResultsTest {
     }
 
     /**
-     * Test of numRuns method, of class AnalysisResults.
+     * Test of getNumRuns method, of class AnalysisResults.
      */
     @Test
-    public void testNumRuns() {
+    public void testGetNumRuns() {
         
-        System.out.println(" - test numRuns");
+        System.out.println(" - test getNumRuns");
         
-        assertEquals(2, results.numRuns("problem-0", "search-0"));
-        assertEquals(1, results.numRuns("problem-0", "search-1"));
-        assertEquals(1, results.numRuns("problem-1", "search-0"));
+        assertEquals(2, results.getNumRuns("problem-0", "search-0"));
+        assertEquals(1, results.getNumRuns("problem-0", "search-1"));
+        assertEquals(1, results.getNumRuns("problem-1", "search-0"));
         
         boolean thrown = false;
         try{
-            results.numRuns("i-do-not-exist", "...");
+            results.getNumRuns("i-do-not-exist", "...");
         } catch (UnknownIDException ex) {
             thrown = true;
         }
@@ -239,7 +239,7 @@ public class AnalysisResultsTest {
         
         thrown = false;
         try{
-            results.numRuns("problem-0", "i-do-not-exist");
+            results.getNumRuns("problem-0", "i-do-not-exist");
         } catch (UnknownIDException ex) {
             thrown = true;
         }
@@ -247,7 +247,7 @@ public class AnalysisResultsTest {
         
         thrown = false;
         try{
-            results.numRuns("problem-1", "search-1");
+            results.getNumRuns("problem-1", "search-1");
         } catch (UnknownIDException ex) {
             thrown = true;
         }
