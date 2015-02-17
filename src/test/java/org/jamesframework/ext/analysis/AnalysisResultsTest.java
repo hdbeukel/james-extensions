@@ -504,7 +504,7 @@ public class AnalysisResultsTest {
                                                      .stream()
                                                      .map(e -> e.asDouble())
                                                      .collect(Collectors.toList()));
-        assertFalse(problem0search0run0.has("solutions"));
+        assertFalse(problem0search0run0.has("best.solution"));
         
         Json problem0search0run1 = problem0search0.at(1);
         assertTrue(problem0search0run1.isObject());
@@ -518,7 +518,7 @@ public class AnalysisResultsTest {
                                                      .stream()
                                                      .map(e -> e.asDouble())
                                                      .collect(Collectors.toList()));
-        assertFalse(problem0search0run1.has("solutions"));
+        assertFalse(problem0search0run1.has("best.solution"));
         
         Json problem0search1 = problem0.at("search-1");
         assertTrue(problem0search1.isArray());
@@ -536,7 +536,7 @@ public class AnalysisResultsTest {
                                                      .stream()
                                                      .map(e -> e.asDouble())
                                                      .collect(Collectors.toList()));
-        assertFalse(problem0search1run0.has("solutions"));
+        assertFalse(problem0search1run0.has("best.solution"));
         
         Json problem1 = json.at("problem-1");
         assertTrue(problem1.has("search-0"));
@@ -557,7 +557,7 @@ public class AnalysisResultsTest {
                                                      .stream()
                                                      .map(e -> e.asDouble())
                                                      .collect(Collectors.toList()));
-        assertFalse(problem1search0run0.has("solutions"));
+        assertFalse(problem1search0run0.has("best.solution"));
         
     }
 
@@ -594,41 +594,21 @@ public class AnalysisResultsTest {
         
         Json problem0search0run0 = problem0search0.at(0);
         assertTrue(problem0search0run0.isObject());
-        assertTrue(problem0search0run0.has("solutions"));
-        assertEquals(new HashSet<>(Arrays.asList(3,6,1,7,19)),
-                     problem0search0run0.at("solutions").at(0).asJsonList()
-                                                              .stream()
-                                                              .map(e -> e.asInteger())
-                                                              .collect(Collectors.toSet()));
-        assertEquals(new HashSet<>(Arrays.asList(4,6,1,7,19)),
-                     problem0search0run0.at("solutions").at(1).asJsonList()
-                                                              .stream()
-                                                              .map(e -> e.asInteger())
-                                                              .collect(Collectors.toSet()));
+        assertTrue(problem0search0run0.has("best.solution"));
         assertEquals(new HashSet<>(Arrays.asList(4,6,1,2,19)),
-                     problem0search0run0.at("solutions").at(2).asJsonList()
-                                                              .stream()
-                                                              .map(e -> e.asInteger())
-                                                              .collect(Collectors.toSet()));
+                     problem0search0run0.at("best.solution").asJsonList()
+                                                            .stream()
+                                                            .map(e -> e.asInteger())
+                                                            .collect(Collectors.toSet()));
         
         Json problem0search0run1 = problem0search0.at(1);
         assertTrue(problem0search0run1.isObject());
-        assertTrue(problem0search0run1.has("solutions"));
-        assertEquals(new HashSet<>(Arrays.asList(8,6,7,3,19)),
-                     problem0search0run1.at("solutions").at(0).asJsonList()
-                                                              .stream()
-                                                              .map(e -> e.asInteger())
-                                                              .collect(Collectors.toSet()));
-        assertEquals(new HashSet<>(Arrays.asList(4,6,7,3,19)),
-                     problem0search0run1.at("solutions").at(1).asJsonList()
-                                                              .stream()
-                                                              .map(e -> e.asInteger())
-                                                              .collect(Collectors.toSet()));
+        assertTrue(problem0search0run1.has("best.solution"));
         assertEquals(new HashSet<>(Arrays.asList(4,6,7,2,19)),
-                     problem0search0run1.at("solutions").at(2).asJsonList()
-                                                              .stream()
-                                                              .map(e -> e.asInteger())
-                                                              .collect(Collectors.toSet()));
+                     problem0search0run1.at("best.solution").asJsonList()
+                                                            .stream()
+                                                            .map(e -> e.asInteger())
+                                                            .collect(Collectors.toSet()));
         
         Json problem0search1 = problem0.at("search-1");
         assertTrue(problem0search1.isArray());
@@ -636,22 +616,12 @@ public class AnalysisResultsTest {
         
         Json problem0search1run0 = problem0search1.at(0);
         assertTrue(problem0search1run0.isObject());
-        assertTrue(problem0search1run0.has("solutions"));
-        assertEquals(new HashSet<>(Arrays.asList(3,12,2,22,16)),
-                     problem0search1run0.at("solutions").at(0).asJsonList()
-                                                              .stream()
-                                                              .map(e -> e.asInteger())
-                                                              .collect(Collectors.toSet()));
-        assertEquals(new HashSet<>(Arrays.asList(4,12,2,22,16)),
-                     problem0search1run0.at("solutions").at(1).asJsonList()
-                                                              .stream()
-                                                              .map(e -> e.asInteger())
-                                                              .collect(Collectors.toSet()));
+        assertTrue(problem0search1run0.has("best.solution"));
         assertEquals(new HashSet<>(Arrays.asList(4,12,1,22,16)),
-                     problem0search1run0.at("solutions").at(2).asJsonList()
-                                                              .stream()
-                                                              .map(e -> e.asInteger())
-                                                              .collect(Collectors.toSet()));
+                     problem0search1run0.at("best.solution").asJsonList()
+                                                            .stream()
+                                                            .map(e -> e.asInteger())
+                                                            .collect(Collectors.toSet()));
         
         Json problem1 = json.at("problem-1");
         assertTrue(problem1.has("search-0"));
@@ -662,22 +632,12 @@ public class AnalysisResultsTest {
         
         Json problem1search0run0 = problem1search0.at(0);
         assertTrue(problem1search0run0.isObject());
-        assertTrue(problem1search0run0.has("solutions"));
-        assertEquals(new HashSet<>(Arrays.asList(1,2,3,4,5,6)),
-                     problem1search0run0.at("solutions").at(0).asJsonList()
-                                                              .stream()
-                                                              .map(e -> e.asInteger())
-                                                              .collect(Collectors.toSet()));
-        assertEquals(new HashSet<>(Arrays.asList(2,3,4,5,6,7)),
-                     problem1search0run0.at("solutions").at(1).asJsonList()
-                                                              .stream()
-                                                              .map(e -> e.asInteger())
-                                                              .collect(Collectors.toSet()));
+        assertTrue(problem1search0run0.has("best.solution"));
         assertEquals(new HashSet<>(Arrays.asList(3,4,5,6,7,8)),
-                     problem1search0run0.at("solutions").at(2).asJsonList()
-                                                              .stream()
-                                                              .map(e -> e.asInteger())
-                                                              .collect(Collectors.toSet()));
+                     problem1search0run0.at("best.solution").asJsonList()
+                                                            .stream()
+                                                            .map(e -> e.asInteger())
+                                                            .collect(Collectors.toSet()));
         
     }
 

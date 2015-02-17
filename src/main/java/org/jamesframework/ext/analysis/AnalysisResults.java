@@ -193,7 +193,7 @@ public class AnalysisResults<SolutionType extends Solution> {
     /**
      * Write the results to a JSON file that can be loaded into R to be inspected and visualized using
      * the james-analysis R package. If the specified file already exists, it is overwritten. This method
-     * stores the evaluation values, the update times and the actual best found solutions for each search
+     * stores the evaluation values, the update times and the actual best found solution for each search
      * run. The solutions are converted to a JSON representation using the given converter. If the latter
      * is <code>null</code>, the actual solutions are not stored in the output file.
      * 
@@ -225,22 +225,19 @@ public class AnalysisResults<SolutionType extends Solution> {
                     
                     Json runJson = Json.object();
                     
-                    // register best solution updates
+                    // register update times and values
                     List<BestSolutionUpdate<SolutionType>> run = runs.get(r);
                     Json times = Json.array();
                     Json values = Json.array();
-                    Json solutions = Json.array();
                     for(int u=0; u<run.size(); u++){
                         times.add(run.get(u).getTime());
                         values.add(run.get(u).getValue());
-                        if(solutionJsonConverter != null){
-                            solutions.add(solutionJsonConverter.toJson(run.get(u).getSolution()));
-                        }
                     }                    
                     runJson.set("times", times);
                     runJson.set("values", values);
+                    // register best found solution, if a JSON converter is given
                     if(solutionJsonConverter != null){
-                        runJson.set("solutions", solutions);
+                        runJson.set("best.solution", solutionJsonConverter.toJson(run.get(run.size()-1).getSolution()));
                     }
                     
                     searchJson.add(runJson);

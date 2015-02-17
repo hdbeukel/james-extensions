@@ -16,13 +16,11 @@
 
 package org.jamesframework.ext.analysis;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import mjson.Json;
 import org.jamesframework.core.search.Search;
 import org.jamesframework.core.search.algo.RandomDescent;
 import org.jamesframework.core.search.algo.RandomSearch;
@@ -344,7 +342,7 @@ public class AnalysisTest {
     }
     
     @Test
-    public void testRun() throws IOException {
+    public void testRun() {
         
         System.out.println(" - test run");
         
@@ -406,9 +404,7 @@ public class AnalysisTest {
         check(results, "small", "random.descent", 3);
         check(results, "larger", "exh", 4);
         check(results, "larger", "random.descent", 4);
-        
-        // results.writeJSON("test.json", s -> Json.array(s.getSelectedIDs().toArray()));
-        
+                
     }
     
     private void check(AnalysisResults<SubsetSolution> results, String problem, String search, int subsetSize){
