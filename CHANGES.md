@@ -4,7 +4,9 @@ JAMES Extensions Module Changes
 Version 0.2.1 (under development)
 ---------------------------------
 
+ - Analysis tools.
  - Improved test coverage.
+ - Fixed conflicting logback settings in tests. Settings are now inherited from the core module.
  - Minor bugfixes and improvements.
 
 Version 0.2 (12/11/2014)
