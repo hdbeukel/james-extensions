@@ -186,6 +186,14 @@ public class AnalysisResultsTest {
         assertEquals(2, results.numSearches("problem-0"));
         assertEquals(1, results.numSearches("problem-1"));
         
+        boolean thrown = false;
+        try{
+            results.numSearches("i-do-not-exist");
+        } catch (UnknownIDException ex) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
     }
 
     /**
@@ -198,6 +206,14 @@ public class AnalysisResultsTest {
         
         assertEquals(new HashSet<>(Arrays.asList("search-0", "search-1")), results.getSearchIDs("problem-0"));
         assertEquals(new HashSet<>(Arrays.asList("search-0")), results.getSearchIDs("problem-1"));
+        
+        boolean thrown = false;
+        try{
+            results.getSearchIDs("i-do-not-exist");
+        } catch (UnknownIDException ex) {
+            thrown = true;
+        }
+        assertTrue(thrown);
         
     }
 
@@ -212,6 +228,30 @@ public class AnalysisResultsTest {
         assertEquals(2, results.numRuns("problem-0", "search-0"));
         assertEquals(1, results.numRuns("problem-0", "search-1"));
         assertEquals(1, results.numRuns("problem-1", "search-0"));
+        
+        boolean thrown = false;
+        try{
+            results.numRuns("i-do-not-exist", "...");
+        } catch (UnknownIDException ex) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        thrown = false;
+        try{
+            results.numRuns("problem-0", "i-do-not-exist");
+        } catch (UnknownIDException ex) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        thrown = false;
+        try{
+            results.numRuns("problem-1", "search-1");
+        } catch (UnknownIDException ex) {
+            thrown = true;
+        }
+        assertTrue(thrown);
         
     }
 
@@ -257,6 +297,54 @@ public class AnalysisResultsTest {
         assertEquals(3, u3.getTime());
         assertEquals(0.3, u3.getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
         assertEquals(new SubsetSolution(ids, new HashSet<>(Arrays.asList(3,4,5,6,7,8))), u3.getSolution());
+        
+        boolean thrown = false;
+        try{
+            results.getRun("i-do-not-exist", "...", 0);
+        } catch (UnknownIDException ex) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        thrown = false;
+        try{
+            results.getRun("problem-0", "i-do-not-exist", 0);
+        } catch (UnknownIDException ex) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        thrown = false;
+        try{
+            results.getRun("problem-1", "search-1", 0);
+        } catch (UnknownIDException ex) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        thrown = false;
+        try{
+            results.getRun("problem-0", "search-0", 2);
+        } catch (IndexOutOfBoundsException ex) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        thrown = false;
+        try{
+            results.getRun("problem-0", "search-1", 1);
+        } catch (IndexOutOfBoundsException ex) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+        
+        thrown = false;
+        try{
+            results.getRun("problem-1", "search-0", 1);
+        } catch (IndexOutOfBoundsException ex) {
+            thrown = true;
+        }
+        assertTrue(thrown);
         
         
     }
