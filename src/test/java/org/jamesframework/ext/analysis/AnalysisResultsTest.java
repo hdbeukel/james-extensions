@@ -151,6 +151,117 @@ public class AnalysisResultsTest {
         System.out.println("# Done testing AnalysisResults!");
     }
 
+    @Test
+    public void testMerge(){
+        
+        System.out.println(" - test merge");
+        
+        // create other results object
+        AnalysisResults<SubsetSolution> results2 = new AnalysisResults<>();
+        // create results of a run of problem 0 - search 0
+        List<BestSolutionUpdate<SubsetSolution>> updates = new ArrayList<>();
+        updates.add(new BestSolutionUpdate<>(
+                            8,
+                            0.302,
+                            new SubsetSolution(ids, new HashSet<>(Arrays.asList(8,5,7,3,19)))
+                   ));
+        updates.add(new BestSolutionUpdate<>(
+                            201,
+                            0.307,
+                            new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,5,7,3,19)))
+                   ));
+        updates.add(new BestSolutionUpdate<>(
+                            306,
+                            0.356,
+                            new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,5,7,2,19)))
+                   ));
+        // register in new results object
+        results2.registerSearchRun("problem-0", "search-0", updates);
+        
+        // merge into existing results which already has two runs of this search for this problem
+        results.merge(results2);
+        
+        // verify merge
+        assertEquals(2, results.getNumSearches("problem-0"));
+        assertEquals(3, results.getNumRuns("problem-0", "search-0"));
+        assertEquals(8, results.getRun("problem-0", "search-0", 2).get(0).getTime());
+        assertEquals(201, results.getRun("problem-0", "search-0", 2).get(1).getTime());
+        assertEquals(306, results.getRun("problem-0", "search-0", 2).get(2).getTime());
+        assertEquals(0.302, results.getRun("problem-0", "search-0", 2).get(0).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(0.307, results.getRun("problem-0", "search-0", 2).get(1).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(0.356, results.getRun("problem-0", "search-0", 2).get(2).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        
+        // create results of a newly applied search for problem-1
+        AnalysisResults<SubsetSolution> results3 = new AnalysisResults<>();
+        updates = new ArrayList<>();
+        updates.add(new BestSolutionUpdate<>(
+                            2,
+                            0.11,
+                            new SubsetSolution(ids, new HashSet<>(Arrays.asList(1,2,3,5,6)))
+                   ));
+        updates.add(new BestSolutionUpdate<>(
+                            3,
+                            0.22,
+                            new SubsetSolution(ids, new HashSet<>(Arrays.asList(2,3,5,6,7)))
+                   ));
+        updates.add(new BestSolutionUpdate<>(
+                            4,
+                            0.33,
+                            new SubsetSolution(ids, new HashSet<>(Arrays.asList(3,5,6,7,8)))
+                   ));
+        // register in new results object
+        results3.registerSearchRun("problem-1", "search-1", updates);
+        
+        // merge into existing results which has one run of search-0 only for this problem
+        results.merge(results3);
+        
+        // verify merge
+        assertEquals(2, results.getNumSearches("problem-1"));
+        assertEquals(1, results.getNumRuns("problem-1", "search-1"));
+        assertEquals(2, results.getRun("problem-1", "search-1", 0).get(0).getTime());
+        assertEquals(3, results.getRun("problem-1", "search-1", 0).get(1).getTime());
+        assertEquals(4, results.getRun("problem-1", "search-1", 0).get(2).getTime());
+        assertEquals(0.11, results.getRun("problem-1", "search-1", 0).get(0).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(0.22, results.getRun("problem-1", "search-1", 0).get(1).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(0.33, results.getRun("problem-1", "search-1", 0).get(2).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        
+        // create results for a new problem
+        AnalysisResults<SubsetSolution> results4 = new AnalysisResults<>();
+        updates = new ArrayList<>();
+        updates.add(new BestSolutionUpdate<>(
+                            10,
+                            0.123,
+                            new SubsetSolution(ids, new HashSet<>(Arrays.asList(1,2,3)))
+                   ));
+        updates.add(new BestSolutionUpdate<>(
+                            20,
+                            0.234,
+                            new SubsetSolution(ids, new HashSet<>(Arrays.asList(2,3)))
+                   ));
+        updates.add(new BestSolutionUpdate<>(
+                            30,
+                            0.345,
+                            new SubsetSolution(ids, new HashSet<>(Arrays.asList(1)))
+                   ));
+        // register in new results object
+        results4.registerSearchRun("problem-x", "search-y", updates);
+        
+        // merge with existing results
+        results.merge(results4);
+        
+        // verify merge
+        assertEquals(3, results.getNumProblems());
+        assertEquals(1, results.getNumSearches("problem-x"));
+        assertEquals(1, results.getNumRuns("problem-x", "search-y"));
+        assertEquals(10, results.getRun("problem-x", "search-y", 0).get(0).getTime());
+        assertEquals(20, results.getRun("problem-x", "search-y", 0).get(1).getTime());
+        assertEquals(30, results.getRun("problem-x", "search-y", 0).get(2).getTime());
+        assertEquals(0.123, results.getRun("problem-x", "search-y", 0).get(0).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(0.234, results.getRun("problem-x", "search-y", 0).get(1).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(0.345, results.getRun("problem-x", "search-y", 0).get(2).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        
+    }
+    
     /**
      * Test of getNumProblems method, of class AnalysisResults.
      */

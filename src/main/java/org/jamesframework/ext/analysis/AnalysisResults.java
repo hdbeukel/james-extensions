@@ -49,6 +49,29 @@ public class AnalysisResults<SolutionType extends Solution> {
     }
     
     /**
+     * Merge the given results into this results object. A deep copy of the newly added search 
+     * runs is made. The contained objects of type {@link BestSolutionUpdate} are <b>not</b>
+     * copied but reused, as they are immutable.
+     * 
+     * @param otherResults other results to be merged into this results object
+     * @return a reference to the updated results object
+     */
+    public AnalysisResults<SolutionType> merge(AnalysisResults<SolutionType> otherResults){
+        otherResults.results.keySet().forEach(problemID -> {
+            otherResults.results.get(problemID).keySet().forEach(searchID -> {
+                List<List<BestSolutionUpdate<SolutionType>>> runs = otherResults.results.get(problemID).get(searchID);
+                runs.forEach(run -> {
+                    // deep copy run
+                    List<BestSolutionUpdate<SolutionType>> runCopy = new ArrayList<>(run);
+                    // register in this results object
+                    registerSearchRun(problemID, searchID, runCopy);
+                });
+            });
+        });
+        return this;
+    }
+    
+    /**
      * Register results of a search run, specifying the IDs of the problem being solved and the applied search.
      * If no runs have been registered before for this combination of problem and search, new entries are created.
      * Else, this run is appended to the existing runs. A reference to the given list is stored, its contents are
