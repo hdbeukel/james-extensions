@@ -56,83 +56,82 @@ public class AnalysisResultsTest {
         for(int i=0; i<25; i++){
             ids.add(i);
         }
-        List<BestSolutionUpdate<SubsetSolution>> updates;
+        SearchRunResults<SubsetSolution> run = new SearchRunResults<>();
         // create results of problem 0 - search 0 - run 0
-        updates = new ArrayList<>();
-        updates.add(new BestSolutionUpdate<>(
+        run.updateBestSolution(
                             12,
                             0.334,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(3,6,1,7,19)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             333,
                             0.356,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,6,1,7,19)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             425,
                             0.398,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,6,1,2,19)))
-                   ));
+                   );
         // register in results
-        results.registerSearchRun("problem-0", "search-0", updates);
+        results.registerSearchRun("problem-0", "search-0", run);
         // create results of problem 0 - search 0 - run 1
-        updates = new ArrayList<>();
-        updates.add(new BestSolutionUpdate<>(
+        run = new SearchRunResults<>();
+        run.updateBestSolution(
                             10,
                             0.312,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(8,6,7,3,19)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             246,
                             0.377,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,6,7,3,19)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             366,
                             0.396,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,6,7,2,19)))
-                   ));
+                   );
         // register in results
-        results.registerSearchRun("problem-0", "search-0", updates);
+        results.registerSearchRun("problem-0", "search-0", run);
         // create results of problem 0 - search 1 - run 0
-        updates = new ArrayList<>();
-        updates.add(new BestSolutionUpdate<>(
+        run = new SearchRunResults<>();
+        run.updateBestSolution(
                             56,
                             0.333,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(3,12,2,22,16)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             523,
                             0.425,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,12,2,22,16)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             866,
                             0.553,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,12,1,22,16)))
-                   ));
+                   );
         // register in results
-        results.registerSearchRun("problem-0", "search-1", updates);
+        results.registerSearchRun("problem-0", "search-1", run);
         // create results of problem 1 - search 0 - run 0
-        updates = new ArrayList<>();
-        updates.add(new BestSolutionUpdate<>(
+        run = new SearchRunResults<>();
+        run.updateBestSolution(
                             1,
                             0.1,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(1,2,3,4,5,6)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             2,
                             0.2,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(2,3,4,5,6,7)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             3,
                             0.3,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(3,4,5,6,7,8)))
-                   ));
+                   );
         // register in results
-        results.registerSearchRun("problem-1", "search-0", updates);
+        results.registerSearchRun("problem-1", "search-0", run);
     }
     
     /**
@@ -159,24 +158,24 @@ public class AnalysisResultsTest {
         // create other results object
         AnalysisResults<SubsetSolution> results2 = new AnalysisResults<>();
         // create results of a run of problem 0 - search 0
-        List<BestSolutionUpdate<SubsetSolution>> updates = new ArrayList<>();
-        updates.add(new BestSolutionUpdate<>(
+        SearchRunResults<SubsetSolution> run = new SearchRunResults<>();
+        run.updateBestSolution(
                             8,
                             0.302,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(8,5,7,3,19)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             201,
                             0.307,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,5,7,3,19)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             306,
                             0.356,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,5,7,2,19)))
-                   ));
+                   );
         // register in new results object
-        results2.registerSearchRun("problem-0", "search-0", updates);
+        results2.registerSearchRun("problem-0", "search-0", run);
         
         // merge into existing results which already has two runs of this search for this problem
         results.merge(results2);
@@ -184,33 +183,33 @@ public class AnalysisResultsTest {
         // verify merge
         assertEquals(2, results.getNumSearches("problem-0"));
         assertEquals(3, results.getNumRuns("problem-0", "search-0"));
-        assertEquals(8, results.getRun("problem-0", "search-0", 2).get(0).getTime());
-        assertEquals(201, results.getRun("problem-0", "search-0", 2).get(1).getTime());
-        assertEquals(306, results.getRun("problem-0", "search-0", 2).get(2).getTime());
-        assertEquals(0.302, results.getRun("problem-0", "search-0", 2).get(0).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
-        assertEquals(0.307, results.getRun("problem-0", "search-0", 2).get(1).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
-        assertEquals(0.356, results.getRun("problem-0", "search-0", 2).get(2).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(8, (long) results.getRun("problem-0", "search-0", 2).getTimes().get(0));
+        assertEquals(201, (long) results.getRun("problem-0", "search-0", 2).getTimes().get(1));
+        assertEquals(306, (long) results.getRun("problem-0", "search-0", 2).getTimes().get(2));
+        assertEquals(0.302, results.getRun("problem-0", "search-0", 2).getValues().get(0), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(0.307, results.getRun("problem-0", "search-0", 2).getValues().get(1), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(0.356, results.getRun("problem-0", "search-0", 2).getValues().get(2), TestConstants.DOUBLE_COMPARISON_PRECISION);
         
         // create results of a newly applied search for problem-1
         AnalysisResults<SubsetSolution> results3 = new AnalysisResults<>();
-        updates = new ArrayList<>();
-        updates.add(new BestSolutionUpdate<>(
+        run = new SearchRunResults<>();
+        run.updateBestSolution(
                             2,
                             0.11,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(1,2,3,5,6)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             3,
                             0.22,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(2,3,5,6,7)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             4,
                             0.33,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(3,5,6,7,8)))
-                   ));
+                   );
         // register in new results object
-        results3.registerSearchRun("problem-1", "search-1", updates);
+        results3.registerSearchRun("problem-1", "search-1", run);
         
         // merge into existing results which has one run of search-0 only for this problem
         results.merge(results3);
@@ -218,33 +217,33 @@ public class AnalysisResultsTest {
         // verify merge
         assertEquals(2, results.getNumSearches("problem-1"));
         assertEquals(1, results.getNumRuns("problem-1", "search-1"));
-        assertEquals(2, results.getRun("problem-1", "search-1", 0).get(0).getTime());
-        assertEquals(3, results.getRun("problem-1", "search-1", 0).get(1).getTime());
-        assertEquals(4, results.getRun("problem-1", "search-1", 0).get(2).getTime());
-        assertEquals(0.11, results.getRun("problem-1", "search-1", 0).get(0).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
-        assertEquals(0.22, results.getRun("problem-1", "search-1", 0).get(1).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
-        assertEquals(0.33, results.getRun("problem-1", "search-1", 0).get(2).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(2, (long) results.getRun("problem-1", "search-1", 0).getTimes().get(0));
+        assertEquals(3, (long) results.getRun("problem-1", "search-1", 0).getTimes().get(1));
+        assertEquals(4, (long) results.getRun("problem-1", "search-1", 0).getTimes().get(2));
+        assertEquals(0.11, results.getRun("problem-1", "search-1", 0).getValues().get(0), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(0.22, results.getRun("problem-1", "search-1", 0).getValues().get(1), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(0.33, results.getRun("problem-1", "search-1", 0).getValues().get(2), TestConstants.DOUBLE_COMPARISON_PRECISION);
         
         // create results for a new problem
         AnalysisResults<SubsetSolution> results4 = new AnalysisResults<>();
-        updates = new ArrayList<>();
-        updates.add(new BestSolutionUpdate<>(
+        run = new SearchRunResults<>();
+        run.updateBestSolution(
                             10,
                             0.123,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(1,2,3)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             20,
                             0.234,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(2,3)))
-                   ));
-        updates.add(new BestSolutionUpdate<>(
+                   );
+        run.updateBestSolution(
                             30,
                             0.345,
                             new SubsetSolution(ids, new HashSet<>(Arrays.asList(1)))
-                   ));
+                   );
         // register in new results object
-        results4.registerSearchRun("problem-x", "search-y", updates);
+        results4.registerSearchRun("problem-x", "search-y", run);
         
         // merge with existing results
         results.merge(results4);
@@ -253,12 +252,12 @@ public class AnalysisResultsTest {
         assertEquals(3, results.getNumProblems());
         assertEquals(1, results.getNumSearches("problem-x"));
         assertEquals(1, results.getNumRuns("problem-x", "search-y"));
-        assertEquals(10, results.getRun("problem-x", "search-y", 0).get(0).getTime());
-        assertEquals(20, results.getRun("problem-x", "search-y", 0).get(1).getTime());
-        assertEquals(30, results.getRun("problem-x", "search-y", 0).get(2).getTime());
-        assertEquals(0.123, results.getRun("problem-x", "search-y", 0).get(0).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
-        assertEquals(0.234, results.getRun("problem-x", "search-y", 0).get(1).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
-        assertEquals(0.345, results.getRun("problem-x", "search-y", 0).get(2).getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(10, (long) results.getRun("problem-x", "search-y", 0).getTimes().get(0));
+        assertEquals(20, (long) results.getRun("problem-x", "search-y", 0).getTimes().get(1));
+        assertEquals(30, (long) results.getRun("problem-x", "search-y", 0).getTimes().get(2));
+        assertEquals(0.123, results.getRun("problem-x", "search-y", 0).getValues().get(0), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(0.234, results.getRun("problem-x", "search-y", 0).getValues().get(1), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(0.345, results.getRun("problem-x", "search-y", 0).getValues().get(2), TestConstants.DOUBLE_COMPARISON_PRECISION);
         
     }
     
@@ -374,40 +373,29 @@ public class AnalysisResultsTest {
         
         System.out.println(" - test getRun");
         
-        List<BestSolutionUpdate<SubsetSolution>> run;
-        BestSolutionUpdate<SubsetSolution> u1, u2, u3;
+        SearchRunResults<SubsetSolution> run;
         
         // problem 0 - search 0 - run 0
         run = results.getRun("problem-0", "search-0", 0);
-        assertEquals(3, run.size());
-        u1 = run.get(0);
-        u2 = run.get(1);
-        u3 = run.get(2);
-        assertEquals(12, u1.getTime());
-        assertEquals(0.334, u1.getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
-        assertEquals(new SubsetSolution(ids, new HashSet<>(Arrays.asList(3,6,1,7,19))), u1.getSolution());
-        assertEquals(333, u2.getTime());
-        assertEquals(0.356, u2.getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
-        assertEquals(new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,6,1,7,19))), u2.getSolution());
-        assertEquals(425, u3.getTime());
-        assertEquals(0.398, u3.getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
-        assertEquals(new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,6,1,2,19))), u3.getSolution());
+        assertEquals(3, run.getNumUpdates());
+        assertEquals(12, (long) run.getTimes().get(0));
+        assertEquals(0.334, run.getValues().get(0), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(333, (long) run.getTimes().get(1));
+        assertEquals(0.356, run.getValues().get(1), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(425, (long) run.getTimes().get(2));
+        assertEquals(0.398, run.getValues().get(2), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(new SubsetSolution(ids, new HashSet<>(Arrays.asList(4,6,1,2,19))), run.getBestSolution());
         
         // problem 0 - search 0 - run 0
         run = results.getRun("problem-1", "search-0", 0);
-        assertEquals(3, run.size());
-        u1 = run.get(0);
-        u2 = run.get(1);
-        u3 = run.get(2);
-        assertEquals(1, u1.getTime());
-        assertEquals(0.1, u1.getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
-        assertEquals(new SubsetSolution(ids, new HashSet<>(Arrays.asList(1,2,3,4,5,6))), u1.getSolution());
-        assertEquals(2, u2.getTime());
-        assertEquals(0.2, u2.getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
-        assertEquals(new SubsetSolution(ids, new HashSet<>(Arrays.asList(2,3,4,5,6,7))), u2.getSolution());
-        assertEquals(3, u3.getTime());
-        assertEquals(0.3, u3.getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
-        assertEquals(new SubsetSolution(ids, new HashSet<>(Arrays.asList(3,4,5,6,7,8))), u3.getSolution());
+        assertEquals(3, run.getNumUpdates());
+        assertEquals(1, (long) run.getTimes().get(0));
+        assertEquals(0.1, run.getValues().get(0), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(2, (long) run.getTimes().get(1));
+        assertEquals(0.2, run.getValues().get(1), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(3, (long) run.getTimes().get(2));
+        assertEquals(0.3, run.getValues().get(2), TestConstants.DOUBLE_COMPARISON_PRECISION);
+        assertEquals(new SubsetSolution(ids, new HashSet<>(Arrays.asList(3,4,5,6,7,8))), run.getBestSolution());
         
         boolean thrown = false;
         try{

@@ -42,7 +42,8 @@ import org.slf4j.MarkerFactory;
  * <p>
  * By default, each algorithm is executed 10 times because most searches are randomized. The number of repeats can
  * be tuned on an overall as well as search specific level. It is advised to perform a sufficient amount of repeats
- * so that stable results are obtained.
+ * so that stable results are obtained. By default, one additional burn-in run is performed for which no results
+ * are tracked. This can also be adjusted on an overall or search specific level.
  * </p>
  * 
  * @param <SolutionType> solution type of the analyzed problems
@@ -70,7 +71,8 @@ public class Analysis<SolutionType extends Solution> {
     private final Map<String, Integer> searchNumBurnIn;
     
     /**
-     * Create an analysis object. The number of performed runs of each search defaults to 10.
+     * Create an analysis object. The number of performed runs of each
+     * search defaults to 10, plus one additional burn-in run.
      */
     public Analysis(){
         problems = new HashMap<>();
@@ -279,7 +281,7 @@ public class Analysis<SolutionType extends Solution> {
     /**
      * Run the analysis. The returned results can be accessed directly or written to a JSON file to be
      * loaded into R for analysis and visualization using the james-analysis R package. The analysis
-     * progress is logged at INFO level, all log messages being tagged with an "analysis" marker.
+     * progress is logged at INFO level, all log messages being tagged with a marker "analysis".
      * 
      * @return results of the analysis
      * @throws JamesRuntimeException if anything goes wrong during any of the searches due to misconfiguration
@@ -334,7 +336,7 @@ public class Analysis<SolutionType extends Solution> {
                     // dispose search
                     search.dispose();
                     // register search run in results object
-                    results.registerSearchRun(problemID, searchID, listener.getBestSolutionUpdates());
+                    results.registerSearchRun(problemID, searchID, listener.getSearchRunResults());
                     LOGGER.info(ANALYSIS_MARKER,
                                 "Finished run {}/{} of search {} for problem {}.",
                                 run+1, nRuns, searchID, problemID);
@@ -355,14 +357,14 @@ public class Analysis<SolutionType extends Solution> {
      */
     private class AnalysisListener implements SearchListener<SolutionType> {
 
-        // list of best solution updates
-        private final List<BestSolutionUpdate<SolutionType>> updates;
+        // search run results
+        private final SearchRunResults<SolutionType> run;
 
         /**
          * Create listener.
          */
         public AnalysisListener() {
-            updates = new ArrayList<>();
+            run = new SearchRunResults<>();
         }
 
         /**
@@ -376,16 +378,16 @@ public class Analysis<SolutionType extends Solution> {
         @Override
         public void newBestSolution(Search<? extends SolutionType> search, SolutionType newBestSolution,
                                     Evaluation newBestSolutionEvaluation, Validation newBestSolutionValidation) {
-            updates.add(new BestSolutionUpdate<>(search.getRuntime(), newBestSolutionEvaluation.getValue(), newBestSolution));
+            run.updateBestSolution(search.getRuntime(), newBestSolutionEvaluation.getValue(), newBestSolution);
         }
         
         /**
-         * Get a list of all best solution updates that have occurred during search. Entries are ordered by time.
+         * Get the results of this search run
          * 
-         * @return list of best solution updates
+         * @return search run results
          */
-        public List<BestSolutionUpdate<SolutionType>> getBestSolutionUpdates(){
-            return updates;
+        public SearchRunResults<SolutionType> getSearchRunResults(){
+            return run;
         }
         
     }

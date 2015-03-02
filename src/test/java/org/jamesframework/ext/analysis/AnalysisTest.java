@@ -410,22 +410,25 @@ public class AnalysisTest {
     private void check(AnalysisResults<SubsetSolution> results, String problem, String search, int subsetSize){
         int numRuns = results.getNumRuns(problem, search);
         for(int r=0; r<numRuns; r++){
-            List<BestSolutionUpdate<SubsetSolution>> updates = results.getRun(problem, search, r);
+            SearchRunResults<SubsetSolution> run = results.getRun(problem, search, r);
             // check
-            for(int u=0; u<updates.size(); u++){
-                BestSolutionUpdate<SubsetSolution> cur, prev;
-                cur = updates.get(u);
+            for(int u=0; u<run.getNumUpdates(); u++){
+                long curTime, prevTime;
+                double curValue, prevValue;
+                curTime = run.getTimes().get(u);
+                curValue = run.getValues().get(u);
                 if(u >= 1){
-                    prev = updates.get(u-1);
-                    assertTrue(cur.getTime() >= prev.getTime());
+                    prevTime = run.getTimes().get(u-1);
+                    prevValue = run.getValues().get(u-1);
+                    assertTrue(curTime >= prevTime);
                     assertTrue(DoubleComparatorWithPrecision.greaterThanOrEqual(
-                                    cur.getValue(),
-                                    prev.getValue(),
+                                    curValue,
+                                    prevValue,
                                     TestConstants.DOUBLE_COMPARISON_PRECISION)
                     );
                 }
-                assertEquals(subsetSize, cur.getSolution().getNumSelectedIDs());
             }
+            assertEquals(subsetSize, run.getBestSolution().getNumSelectedIDs());
         }
     }
 

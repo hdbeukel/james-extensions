@@ -38,8 +38,8 @@ import org.jamesframework.core.problems.Solution;
  */
 public class AnalysisResults<SolutionType extends Solution> {
     
-    // stores results: problem ID -> search ID -> list of runs (each run = list of best solution updates)
-    private final Map<String, Map<String, List<List<BestSolutionUpdate<SolutionType>>>>> results;
+    // stores results: problem ID -> search ID -> list of search run results
+    private final Map<String, Map<String, List<SearchRunResults<SolutionType>>>> results;
     
     /**
      * Create an empty results object.
@@ -49,9 +49,8 @@ public class AnalysisResults<SolutionType extends Solution> {
     }
     
     /**
-     * Merge the given results into this results object. A deep copy of the newly added search 
-     * runs is made. The contained objects of type {@link BestSolutionUpdate} are <b>not</b>
-     * copied but reused, as they are immutable.
+     * Merge the given results into this results object. A copy of the newly added search 
+     * runs is made.
      * 
      * @param otherResults other results to be merged into this results object
      * @return a reference to the updated results object
@@ -59,10 +58,10 @@ public class AnalysisResults<SolutionType extends Solution> {
     public AnalysisResults<SolutionType> merge(AnalysisResults<SolutionType> otherResults){
         otherResults.results.keySet().forEach(problemID -> {
             otherResults.results.get(problemID).keySet().forEach(searchID -> {
-                List<List<BestSolutionUpdate<SolutionType>>> runs = otherResults.results.get(problemID).get(searchID);
+                List<SearchRunResults<SolutionType>> runs = otherResults.results.get(problemID).get(searchID);
                 runs.forEach(run -> {
                     // deep copy run
-                    List<BestSolutionUpdate<SolutionType>> runCopy = new ArrayList<>(run);
+                    SearchRunResults<SolutionType> runCopy = new SearchRunResults<>(run);
                     // register in this results object
                     registerSearchRun(problemID, searchID, runCopy);
                 });
@@ -74,14 +73,13 @@ public class AnalysisResults<SolutionType extends Solution> {
     /**
      * Register results of a search run, specifying the IDs of the problem being solved and the applied search.
      * If no runs have been registered before for this combination of problem and search, new entries are created.
-     * Else, this run is appended to the existing runs. A reference to the given list is stored, its contents are
-     * <b>not</b> copied.
+     * Else, this run is appended to the existing runs.
      * 
      * @param problemID ID of the problem being solved
      * @param searchID ID of the applied search
-     * @param run results of the search run, represented as a list of best solution updates
+     * @param run results of the search run
      */
-    public void registerSearchRun(String problemID, String searchID, List<BestSolutionUpdate<SolutionType>> run){
+    public void registerSearchRun(String problemID, String searchID, SearchRunResults<SolutionType> run){
         if(!results.containsKey(problemID)){
             results.put(problemID, new HashMap<>());
         }
@@ -157,8 +155,7 @@ public class AnalysisResults<SolutionType extends Solution> {
     }
     
     /**
-     * Get the results of the i-th performed run of the given search when solving the given
-     * problem (unmodifiable list view).
+     * Get the results of the i-th performed run of the given search when solving the given problem.
      * 
      * @param problemID ID of the problem
      * @param searchID ID of the applied search
@@ -167,14 +164,14 @@ public class AnalysisResults<SolutionType extends Solution> {
      * @throws UnknownIDException if an unknown problem or search ID is given
      * @throws IndexOutOfBoundsException if there is no i-th run for this search and problem
      */
-    public List<BestSolutionUpdate<SolutionType>> getRun(String problemID, String searchID, int i){
+    public SearchRunResults<SolutionType> getRun(String problemID, String searchID, int i){
         if(!results.containsKey(problemID)){
             throw new UnknownIDException("Unknown problem ID " + problemID + ".");
         }
         if(!results.get(problemID).containsKey(searchID)){
             throw new UnknownIDException("Unknown search ID " + searchID + " for problem " + problemID + ".");
         }
-        return Collections.unmodifiableList(results.get(problemID).get(searchID).get(i));
+        return results.get(problemID).get(searchID).get(i);
     }
     
     /**
@@ -210,47 +207,41 @@ public class AnalysisResults<SolutionType extends Solution> {
         Json resultsJson = Json.object();
         
         // register problems
-        for(String problemID : results.keySet()){
-            
+        results.forEach((problemID, searches) -> {
+        
             Json problemJson = Json.object();
             
-            // register searches applied to solve the current problem
-            for(String searchID : results.get(problemID).keySet()){
-                
+            searches.forEach((searchID, runs) -> {
+            
                 Json searchJson = Json.array();
                 
                 // register search runs
-                List<List<BestSolutionUpdate<SolutionType>>> runs = results.get(problemID).get(searchID);
-                for(int r=0; r<runs.size(); r++){
-                    
+                runs.forEach(run -> {
+                
                     Json runJson = Json.object();
                     
                     // register update times and values
-                    List<BestSolutionUpdate<SolutionType>> run = runs.get(r);
-                    Json times = Json.array();
-                    Json values = Json.array();
-                    for(int u=0; u<run.size(); u++){
-                        times.add(run.get(u).getTime());
-                        values.add(run.get(u).getValue());
-                    }                    
+                    Json times = Json.array(run.getTimes().toArray());
+                    Json values = Json.array(run.getValues().toArray());           
                     runJson.set("times", times);
                     runJson.set("values", values);
                     // register best found solution, if a JSON converter is given
                     if(solutionJsonConverter != null){
-                        runJson.set("best.solution", solutionJsonConverter.toJson(run.get(run.size()-1).getSolution()));
+                        runJson.set("best.solution", solutionJsonConverter.toJson(run.getBestSolution()));
                     }
                     
                     searchJson.add(runJson);
-                    
-                }
                 
-                problemJson.set(searchID, searchJson);
+                });
                 
-            }
+                problemJson.set(searchID, searchJson); 
+            
+            });
             
             resultsJson.set(problemID, problemJson);
-            
-        }
+        
+        });
+        
         
         /*************************************/
         /* STEP 2: Write JSON string to file */
