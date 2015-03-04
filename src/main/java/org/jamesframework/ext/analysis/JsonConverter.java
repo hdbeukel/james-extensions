@@ -17,6 +17,7 @@
 package org.jamesframework.ext.analysis;
 
 import mjson.Json;
+import org.jamesframework.core.subset.SubsetSolution;
 
 /**
  * A JSON converter is a functional interface defining a single method to convert objects
@@ -30,6 +31,11 @@ import mjson.Json;
  */
 @FunctionalInterface
 public interface JsonConverter<T> {
+    
+    /**
+     * Predefined converter for subset solutions that creates a JSON array containing the selected IDs.
+     */
+    public static final JsonConverter<SubsetSolution> SUBSET_SOLUTION = sol -> Json.array(sol.getSelectedIDs().toArray());
 
     /**
      * Convert an object to a JSON representation.

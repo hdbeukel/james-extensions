@@ -18,7 +18,6 @@ package org.jamesframework.ext.analysis;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -559,7 +558,7 @@ public class AnalysisResultsTest {
                 
         // write to JSON file (including solutions)
         String filePath = folder.newFile().getPath();
-        results.writeJSON(filePath, sol -> Json.array(sol.getSelectedIDs().toArray()));
+        results.writeJSON(filePath, JsonConverter.SUBSET_SOLUTION);
         
         // read file
         List<String> lines = Files.readAllLines(Paths.get(filePath));
