@@ -9,10 +9,12 @@ The JAMES extensions module is part of the [JAMES framework][james-github].
 
 This module extends the core with additional tools
 for advanced problem specification and search customization. It also provides reusable
-components for other problem types besides subset selection (e.g. permutation problems).
-  
+components for other problem types besides subset selection (e.g. permutation problems)
+and an automated analysis workflow.
+Analysis results can be studied and visualized in R using the [JAMES Analysis R package][analysis-R-package].
+
 Documentation
-=============  
+=============
 
 More information, user documentation and examples of how to use the framework are provided at the [website][james-website].
 Additional developer documentation is posted on the [wiki][james-wiki].
@@ -43,8 +45,9 @@ Changes
 A list of changes is provided in the CHANGES file.
 
 
-[james-github]:  https://github.com/hdbeukel/james
-[james-website]: http://www.jamesframework.org
-[james-wiki]:    https://github.com/hdbeukel/james/wiki
-[james-forum]:   https://groups.google.com/forum/#!forum/james-users
-[james-contact]: http://www.jamesframework.org/contact/
+[james-github]:       https://github.com/hdbeukel/james
+[analysis-R-package]: https://github.com/hdbeukel/james-analysis-R
+[james-website]:      http://www.jamesframework.org
+[james-wiki]:         https://github.com/hdbeukel/james/wiki
+[james-forum]:        https://groups.google.com/forum/#!forum/james-users
+[james-contact]:      http://www.jamesframework.org/contact/
