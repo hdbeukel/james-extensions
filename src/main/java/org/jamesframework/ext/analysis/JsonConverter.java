@@ -18,6 +18,7 @@ package org.jamesframework.ext.analysis;
 
 import mjson.Json;
 import org.jamesframework.core.subset.SubsetSolution;
+import org.jamesframework.ext.permutation.PermutationSolution;
 
 /**
  * A JSON converter is a functional interface defining a single method to convert objects
@@ -35,7 +36,14 @@ public interface JsonConverter<T> {
     /**
      * Predefined converter for subset solutions that creates a JSON array containing the selected IDs.
      */
-    public static final JsonConverter<SubsetSolution> SUBSET_SOLUTION = sol -> Json.array(sol.getSelectedIDs().toArray());
+    public static final JsonConverter<SubsetSolution> SUBSET_SOLUTION =
+            sol -> Json.array(sol.getSelectedIDs().toArray());
+    
+    /**
+     * Predefined converter for permutation solutions that creates a JSON array containing the ordered IDs.
+     */
+    public static final JsonConverter<PermutationSolution> PERMUTATION_SOLUTION = 
+            sol -> Json.array(sol.getOrder().toArray());
 
     /**
      * Convert an object to a JSON representation.
