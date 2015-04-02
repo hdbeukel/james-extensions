@@ -1,8 +1,8 @@
 JAMES Extensions Module Changes
 ===============================
 
-Version 0.2.1 (under development)
----------------------------------
+Version 0.2.1 (02/04/2015)
+--------------------------
 
  - Automated analysis workflow.
  - Improved test coverage.
