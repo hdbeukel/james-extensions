@@ -6,11 +6,11 @@
     <parent>
         <groupId>org.jamesframework</groupId>
         <artifactId>james</artifactId>
-        <version>0.2</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <!-- james extensions specifications -->
     <artifactId>james-extensions</artifactId>
-    <version>0.2.1</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>james-extensions</name>
     <description>
@@ -50,35 +50,4 @@
             <version>1.3</version>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <!-- TODO: remove plugins below once parent POM v1.0 is adopted for this module -->
-            <!-- JaCoCo test coverage -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.2.201409121644</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Coveralls reporting plugin -->
-            <plugin>
-                <groupId>org.eluder.coveralls</groupId>
-                <artifactId>coveralls-maven-plugin</artifactId>
-                <version>3.0.1</version>
-            </plugin>
-        </plugins>
-    </build>
 </project>
