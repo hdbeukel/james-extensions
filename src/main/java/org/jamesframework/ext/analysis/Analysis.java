@@ -16,6 +16,7 @@
 
 package org.jamesframework.ext.analysis;
 
+import org.jamesframework.core.util.SearchFactory;
 import java.util.HashMap;
 import java.util.Map;
 import org.jamesframework.core.exceptions.JamesRuntimeException;
