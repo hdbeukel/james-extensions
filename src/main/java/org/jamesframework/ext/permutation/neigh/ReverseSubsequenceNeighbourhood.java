@@ -19,11 +19,10 @@ package org.jamesframework.ext.permutation.neigh;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 import org.jamesframework.core.search.neigh.Neighbourhood;
+import org.jamesframework.core.util.Randomization;
 import org.jamesframework.ext.permutation.PermutationSolution;
 import org.jamesframework.ext.permutation.neigh.moves.ReverseSubsequenceMove;
-import org.jamesframework.ext.permutation.neigh.moves.SingleSwapMove;
 
 /**
  * Permutation neighbourhood which generates moves that reverse a subsequence of the permutation.
@@ -46,7 +45,7 @@ public class ReverseSubsequenceNeighbourhood implements Neighbourhood<Permutatio
             return null;
         }
         // pick two random, distinct positions
-        Random rg = ThreadLocalRandom.current();
+        Random rg = Randomization.getRandom();
         int i = rg.nextInt(n);
         int j = rg.nextInt(n-1);
         if(j >= i){

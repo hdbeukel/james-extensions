@@ -19,8 +19,8 @@ package org.jamesframework.ext.permutation.neigh;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 import org.jamesframework.core.search.neigh.Neighbourhood;
+import org.jamesframework.core.util.Randomization;
 import org.jamesframework.ext.permutation.PermutationSolution;
 import org.jamesframework.ext.permutation.neigh.moves.SingleSwapMove;
 
@@ -40,7 +40,7 @@ public class SingleSwapNeighbourhood implements Neighbourhood<PermutationSolutio
     @Override
     public SingleSwapMove getRandomMove(PermutationSolution solution) {
         // pick two random, distinct positions to swap
-        Random rg = ThreadLocalRandom.current();
+        Random rg = Randomization.getRandom();
         int n = solution.size();
         int i = rg.nextInt(n);
         int j = rg.nextInt(n-1);

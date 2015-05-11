@@ -22,6 +22,7 @@ import java.util.List;
 import org.jamesframework.core.problems.AbstractProblem;
 import org.jamesframework.core.problems.datatypes.IntegerIdentifiedData;
 import org.jamesframework.core.problems.objectives.Objective;
+import org.jamesframework.core.util.Randomization;
 
 /**
  * Generic permutation problem. Requires that every item in the data set is identified with a unique integer ID.
@@ -56,7 +57,7 @@ public class PermutationProblem<DataType extends IntegerIdentifiedData> extends 
         // create list with all IDs
         List<Integer> ids = new ArrayList<>(getData().getIDs());
         // shuffle IDs
-        Collections.shuffle(ids);
+        Collections.shuffle(ids, Randomization.getRandom());
         // create and return permutation solution
         return new PermutationSolution(ids);
     }

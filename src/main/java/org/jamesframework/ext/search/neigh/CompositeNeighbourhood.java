@@ -18,12 +18,11 @@ package org.jamesframework.ext.search.neigh;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import org.jamesframework.core.problems.Solution;
 import org.jamesframework.core.search.neigh.Move;
 import org.jamesframework.core.search.neigh.Neighbourhood;
+import org.jamesframework.core.util.Randomization;
 import org.jamesframework.core.util.RouletteSelector;
 
 /**
@@ -121,10 +120,7 @@ public class CompositeNeighbourhood<SolutionType extends Solution> implements Ne
             return null;
         } else {
             // roulette selection to pick a move
-            Random rg = ThreadLocalRandom.current();
-            RouletteSelector<Move<? super SolutionType>> roulette = new RouletteSelector<>(rg);
-            move = roulette.select(moves, respectiveWeights);
-            return move;
+            return RouletteSelector.select(moves, respectiveWeights, Randomization.getRandom());
         }
     }
 
