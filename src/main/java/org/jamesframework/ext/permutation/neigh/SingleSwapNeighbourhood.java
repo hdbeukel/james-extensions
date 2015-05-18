@@ -35,13 +35,18 @@ public class SingleSwapNeighbourhood implements Neighbourhood<PermutationSolutio
      * Create a random single swap move.
      * 
      * @param solution permutation solution to which the move is to be applied
-     * @return random swap move
+     * @return random swap move, <code>null</code> if the permutation contains
+     *         less than 2 items
      */
     @Override
     public SingleSwapMove getRandomMove(PermutationSolution solution) {
+        int n = solution.size();
+        // check: move possible
+        if(n < 2){
+            return null;
+        }
         // pick two random, distinct positions to swap
         Random rg = Randomization.getRandom();
-        int n = solution.size();
         int i = rg.nextInt(n);
         int j = rg.nextInt(n-1);
         if(j >= i){

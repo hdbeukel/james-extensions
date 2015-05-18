@@ -35,7 +35,8 @@ public class ReverseSubsequenceNeighbourhood implements Neighbourhood<Permutatio
      * Create a random move that reverses a subsequence of the permutation.
      * 
      * @param solution permutation solution to which the move is to be applied
-     * @return random move, <code>null</code> if the permutation contains less than 2 items
+     * @return random move, <code>null</code> if the permutation contains less
+     *         than 2 items
      */
     @Override
     public ReverseSubsequenceMove getRandomMove(PermutationSolution solution) {
