@@ -19,10 +19,10 @@ package org.jamesframework.ext.permutation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import org.jamesframework.core.problems.AbstractProblem;
 import org.jamesframework.core.problems.datatypes.IntegerIdentifiedData;
 import org.jamesframework.core.problems.objectives.Objective;
-import org.jamesframework.core.util.Randomization;
 
 /**
  * Generic permutation problem. Requires that every item in the data set is identified with a unique integer ID.
@@ -50,14 +50,15 @@ public class PermutationProblem<DataType extends IntegerIdentifiedData> extends 
      * Create a random permutation solution. The IDs of all items are retrieved from the underlying data
      * specified at construction and shuffled to create a random permutation.
      * 
+     * @param source of randomness used to generate a random permutation
      * @return randomly generated permutation solution
      */
     @Override
-    public PermutationSolution createRandomSolution() {
+    public PermutationSolution createRandomSolution(Random rnd) {
         // create list with all IDs
         List<Integer> ids = new ArrayList<>(getData().getIDs());
         // shuffle IDs
-        Collections.shuffle(ids, Randomization.getRandom());
+        Collections.shuffle(ids, rnd);
         // create and return permutation solution
         return new PermutationSolution(ids);
     }

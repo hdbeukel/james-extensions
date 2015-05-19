@@ -75,7 +75,7 @@ public class SingleSwapNeighbourhoodTest {
             // some swaps
             for(int j=0; j<50; j++){
                 // generate random swap move
-                SingleSwapMove move = neigh.getRandomMove(sol);
+                SingleSwapMove move = (SingleSwapMove) neigh.getRandomMove(sol);
                 int s1 = move.getI();
                 int s2 = move.getJ();
                 // verify

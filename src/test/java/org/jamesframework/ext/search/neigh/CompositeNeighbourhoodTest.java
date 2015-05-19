@@ -249,7 +249,7 @@ public class CompositeNeighbourhoodTest {
         // test case 2: none of the neighbourhoods return any moves
         Neighbourhood<SubsetSolution> emptyNeigh = new Neighbourhood<SubsetSolution>() {
             @Override
-            public Move<? super SubsetSolution> getRandomMove(SubsetSolution solution) {
+            public Move<? super SubsetSolution> getRandomMove(SubsetSolution solution, Random rnd) {
                 return null;
             }
             @Override

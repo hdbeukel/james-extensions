@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.jamesframework.core.search.neigh.Neighbourhood;
-import org.jamesframework.core.util.Randomization;
 import org.jamesframework.ext.permutation.PermutationSolution;
 import org.jamesframework.ext.permutation.neigh.moves.SingleSwapMove;
 
@@ -35,20 +34,20 @@ public class SingleSwapNeighbourhood implements Neighbourhood<PermutationSolutio
      * Create a random single swap move.
      * 
      * @param solution permutation solution to which the move is to be applied
+     * @param rnd source of randomness used to generate random move
      * @return random swap move, <code>null</code> if the permutation contains
      *         less than 2 items
      */
     @Override
-    public SingleSwapMove getRandomMove(PermutationSolution solution) {
+    public SingleSwapMove getRandomMove(PermutationSolution solution, Random rnd) {
         int n = solution.size();
         // check: move possible
         if(n < 2){
             return null;
         }
         // pick two random, distinct positions to swap
-        Random rg = Randomization.getRandom();
-        int i = rg.nextInt(n);
-        int j = rg.nextInt(n-1);
+        int i = rnd.nextInt(n);
+        int j = rnd.nextInt(n-1);
         if(j >= i){
             j++;
         }

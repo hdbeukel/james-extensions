@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.jamesframework.core.search.neigh.Neighbourhood;
-import org.jamesframework.core.util.Randomization;
 import org.jamesframework.ext.permutation.PermutationSolution;
 import org.jamesframework.ext.permutation.neigh.moves.ReverseSubsequenceMove;
 
@@ -35,20 +34,20 @@ public class ReverseSubsequenceNeighbourhood implements Neighbourhood<Permutatio
      * Create a random move that reverses a subsequence of the permutation.
      * 
      * @param solution permutation solution to which the move is to be applied
+     * @param rnd source of randomness used to generate random move
      * @return random move, <code>null</code> if the permutation contains less
      *         than 2 items
      */
     @Override
-    public ReverseSubsequenceMove getRandomMove(PermutationSolution solution) {
+    public ReverseSubsequenceMove getRandomMove(PermutationSolution solution, Random rnd) {
         int n = solution.size();
         // check: move possible
         if(n < 2){
             return null;
         }
         // pick two random, distinct positions
-        Random rg = Randomization.getRandom();
-        int i = rg.nextInt(n);
-        int j = rg.nextInt(n-1);
+        int i = rnd.nextInt(n);
+        int j = rnd.nextInt(n-1);
         if(j >= i){
             j++;
         }

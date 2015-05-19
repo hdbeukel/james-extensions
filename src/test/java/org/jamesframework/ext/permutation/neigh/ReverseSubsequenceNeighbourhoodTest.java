@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import org.jamesframework.core.search.neigh.Move;
 import org.jamesframework.ext.permutation.PermutationSolution;
 import org.jamesframework.ext.permutation.neigh.moves.ReverseSubsequenceMove;
 import org.junit.AfterClass;
@@ -76,7 +77,7 @@ public class ReverseSubsequenceNeighbourhoodTest {
             // some swaps
             for(int j=0; j<50; j++){
                 // generate random move
-                ReverseSubsequenceMove move = neigh.getRandomMove(sol);
+                ReverseSubsequenceMove move = (ReverseSubsequenceMove) neigh.getRandomMove(sol);
                 int from = move.getFrom();
                 int to = move.getTo();
                 // apply move
