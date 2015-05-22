@@ -50,7 +50,7 @@ public class PermutationProblem<DataType extends IntegerIdentifiedData> extends 
      * Create a random permutation solution. The IDs of all items are retrieved from the underlying data
      * specified at construction and shuffled to create a random permutation.
      * 
-     * @param source of randomness used to generate a random permutation
+     * @param rnd source of randomness used to generate a random permutation
      * @return randomly generated permutation solution
      */
     @Override
