@@ -32,8 +32,8 @@ import org.jamesframework.core.problems.Solution;
  */
 public class PermutationSolution extends Solution {
 
-    // ordered sequence of IDs
-    private final List<Integer> order;
+    // ordered sequence of IDs (+ unmodifiable view)
+    private final List<Integer> order, orderView;
 
     /**
      * Creates a order solution. Items are ordered according to the given list of IDs.
@@ -57,7 +57,10 @@ public class PermutationSolution extends Solution {
         if(order.stream().distinct().count() < order.size()){
             throw new IllegalArgumentException("Error while creating permutation solution: given list of IDs can not contain duplicates.");
         }
+        // store ordered IDs
         this.order = new ArrayList<>(order);
+        // init view
+        this.orderView = Collections.unmodifiableList(this.order);
     }
     
     /**
@@ -66,7 +69,7 @@ public class PermutationSolution extends Solution {
      * @return ordered IDs
      */
     public List<Integer> getOrder(){
-        return Collections.unmodifiableList(order);
+        return orderView;
     }
     
     /**

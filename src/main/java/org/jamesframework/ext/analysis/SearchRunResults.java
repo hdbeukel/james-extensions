@@ -43,6 +43,7 @@ public class SearchRunResults<SolutionType extends Solution> {
      * Create an empty instance.
      */
     public SearchRunResults() {
+        // create lists
         times = new ArrayList<>();
         values = new ArrayList<>();
     }
@@ -55,8 +56,11 @@ public class SearchRunResults<SolutionType extends Solution> {
      * @param run search run results to be copied
      */
     public SearchRunResults(SearchRunResults<SolutionType> run){
-        times = new ArrayList<>(run.getTimes());
-        values = new ArrayList<>(run.getValues());
+        this();
+        // copy update times and values
+        times.addAll(run.times);
+        values.addAll(run.values);
+        // store final best solution (no copy)
         bestSolution = run.getBestSolution();
     }
     
