@@ -14,10 +14,13 @@ env:
     - secure: "QFkJVqCl0Q7V7/JjdWbfM/kIKwxczq9KIYd++kBJy/dLwJ7hpb+NGZGFN7wypy7hUIUmyTFmasHZuGryWMmJ9gqao1tS8mHI2+6ANWz69sYUZqL/NrCpJ9TFshYreECNVRKojTcutcTphQILkOVVRk6q/Xm4venJI1NUUKmOYRY="
     - secure: "YrbZO+jndVte3JUs3ivo4vW+LPQ8J7IGHmJnLpbSgzSbnHUPcrK19dWUONn0EEfbEXlFnflLCmtJufbqlTx190I7/0I5AJEn4PYEeVOY4GrfiRvpXbAkdgR73UEdt3iHfIiRdVibtPmXBpnYm88JGL7UkJ/jonq5ID7mLV84JuY="
   
+script:
+  - mvn install -B
+  
 after_success:
-  - mvn coveralls:report
+  - mvn coveralls:report -B
   - python .travis/add-sonatype-server.py
-  - mvn clean deploy -DskipTests=true --settings ~/.m2/mySettings.xml
+  - mvn clean deploy -B -DskipTests=true --settings ~/.m2/mySettings.xml
   - git clone --branch=gh-pages git://github.com/hdbeukel/james.git site
   - cd site
   - cp -R ../target/apidocs/* api/ext/snapshot/
