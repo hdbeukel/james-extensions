@@ -6,6 +6,7 @@ Version 1.0 (17/06/2015)
 
  - Compatible with core module v1.0.
  - Dedicated customizable random generator per search.
+ - Various improvements and minor bug fixes.
  - Moved SearchFactory interface to core module.
  - Moved to SLF4J API 1.7.12.
 
