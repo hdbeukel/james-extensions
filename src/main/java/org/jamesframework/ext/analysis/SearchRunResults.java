@@ -19,7 +19,7 @@ package org.jamesframework.ext.analysis;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.jamesframework.core.problems.Solution;
+import org.jamesframework.core.problems.sol.Solution;
 
 /**
  * Contains results of a search run. For every point in time during search when a

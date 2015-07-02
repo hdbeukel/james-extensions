@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import mjson.Json;
-import org.jamesframework.core.problems.Solution;
+import org.jamesframework.core.problems.sol.Solution;
 
 /**
  * Groups results of an analysis performed by an {@link Analysis} object. The results can be accessed directly or

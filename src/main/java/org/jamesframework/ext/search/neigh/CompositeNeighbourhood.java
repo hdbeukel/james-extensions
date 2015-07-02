@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-import org.jamesframework.core.problems.Solution;
+import org.jamesframework.core.problems.sol.Solution;
 import org.jamesframework.core.search.neigh.Move;
 import org.jamesframework.core.search.neigh.Neighbourhood;
 import org.jamesframework.core.util.RouletteSelector;

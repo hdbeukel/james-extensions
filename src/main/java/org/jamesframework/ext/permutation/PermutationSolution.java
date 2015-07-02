@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import org.jamesframework.core.exceptions.SolutionModificationException;
-import org.jamesframework.core.problems.Solution;
+import org.jamesframework.core.problems.sol.Solution;
 
 /**
  * High-level order solution modeled in terms of IDs of ordered items.

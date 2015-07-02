@@ -18,7 +18,7 @@ package org.jamesframework.ext.problems.objectives;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import org.jamesframework.core.problems.Solution;
+import org.jamesframework.core.problems.sol.Solution;
 import org.jamesframework.core.problems.objectives.evaluations.Evaluation;
 import org.jamesframework.core.subset.SubsetSolution;
 import org.jamesframework.core.subset.neigh.moves.SubsetMove;
