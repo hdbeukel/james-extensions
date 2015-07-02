@@ -20,47 +20,42 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import org.jamesframework.core.problems.AbstractProblem;
+import org.jamesframework.core.problems.GenericProblem;
 import org.jamesframework.core.problems.datatypes.IntegerIdentifiedData;
 import org.jamesframework.core.problems.objectives.Objective;
 
 /**
  * Generic permutation problem. Requires that every item in the data set is identified with a unique integer ID.
- * The solution type is fixed to {@link PermutationSolution} so that a permutation is coded as an ordered sequence
- * of these IDs. The data type can be any class or interface that implements/extends the {@link IntegerIdentifiedData}
- * interface which imposes the assignment of IDs to items in the data set.
+ * The solution type is fixed to {@link PermutationSolution}, which models a solution as an ordered sequence
+ * of these IDs. The data type can be any class or interface that implements the {@link IntegerIdentifiedData}
+ * interface, which imposes the assignment of IDs to items in the data set. A default random solution generator
+ * is used, which creates random permutations by shuffling the list of IDs as retrieved from the data.
  * 
  * @param <DataType> data type of the permutation problem, required to implement the {@link IntegerIdentifiedData} interface
  * @author <a href="mailto:herman.debeukelaer@ugent.be">Herman De Beukelaer</a>
  */
-public class PermutationProblem<DataType extends IntegerIdentifiedData> extends AbstractProblem<PermutationSolution, DataType>{
+public class PermutationProblem<DataType extends IntegerIdentifiedData> extends GenericProblem<PermutationSolution, DataType>{
 
     /**
-     * Create a permutation problem with given objective and data.
+     * Create a permutation problem with given objective and data. None of the arguments can be <code>null</code>.
      * 
      * @param objective objective of the problem
      * @param data underlying data
-     * @throws NullPointerException if <code>objective</code> is <code>null</code>
+     * @throws NullPointerException if <code>objective</code> or <code>data</code> are <code>null</code>
      */
     public PermutationProblem(Objective<? super PermutationSolution, ? super DataType> objective, DataType data) {
-        super(objective, data);
-    }
-
-    /**
-     * Create a random permutation solution. The IDs of all items are retrieved from the underlying data
-     * specified at construction and shuffled to create a random permutation.
-     * 
-     * @param rnd source of randomness used to generate a random permutation
-     * @return randomly generated permutation solution
-     */
-    @Override
-    public PermutationSolution createRandomSolution(Random rnd) {
-        // create list with all IDs
-        List<Integer> ids = new ArrayList<>(getData().getIDs());
-        // shuffle IDs
-        Collections.shuffle(ids, rnd);
-        // create and return permutation solution
-        return new PermutationSolution(ids);
+        super(objective, data, rnd -> {
+            // create list with all IDs
+            List<Integer> ids = new ArrayList<>(data.getIDs());
+            // shuffle IDs
+            Collections.shuffle(ids, rnd);
+            // create and return permutation solution
+            return new PermutationSolution(ids);
+        });
+        // check: data not null
+        if(data == null){
+            throw new NullPointerException("Error while creating permutation problem: data is required, can not be null.");
+        }
     }
 
 }
