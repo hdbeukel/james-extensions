@@ -5,7 +5,7 @@ Version 1.1 (under development)
 ---------------------------------
 
  - Compatible with core module v1.1.
- - Updated permutation problem components to extend the new `GenericProblem`.
+ - Updated `PermutationProblem` to extend the new `GenericProblem`.
 
 Version 1.0 (17/06/2015)
 ------------------------
