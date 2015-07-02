@@ -5,6 +5,7 @@ Version 1.1 (under development)
 ---------------------------------
 
  - Compatible with core module v1.1.
+ - Updated permutation problem components to use the new `GenericProblem` with customizable random solution generator.
 
 Version 1.0 (17/06/2015)
 ------------------------
