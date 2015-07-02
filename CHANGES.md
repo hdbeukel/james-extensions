@@ -5,7 +5,7 @@ Version 1.1 (under development)
 ---------------------------------
 
  - Compatible with core module v1.1.
- - Updated permutation problem components to use the new `GenericProblem` with customizable random solution generator.
+ - Updated permutation problem components to extend the new `GenericProblem`.
 
 Version 1.0 (17/06/2015)
 ------------------------
@@ -21,7 +21,8 @@ Version 0.2.1 (02/04/2015)
 
  - Automated analysis workflow.
  - Improved test coverage.
- - Fixed conflicting logback settings in tests. Settings are now inherited from the core module.
+ - Fixed conflicting logback settings in tests. Settings are now inherited from
+   the core module.
  - Minor bugfixes and improvements.
 
 Version 0.2 (12/11/2014)
