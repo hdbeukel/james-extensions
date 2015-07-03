@@ -19,7 +19,6 @@ package org.jamesframework.ext.permutation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import org.jamesframework.core.problems.GenericProblem;
 import org.jamesframework.core.problems.datatypes.IntegerIdentifiedData;
 import org.jamesframework.core.problems.objectives.Objective;
@@ -39,16 +38,17 @@ public class PermutationProblem<DataType extends IntegerIdentifiedData> extends 
     /**
      * Create a permutation problem with given objective and data. None of the arguments can be <code>null</code>.
      * 
-     * @param objective objective of the problem
      * @param data underlying data
+     * @param objective objective of the problem
      * @throws NullPointerException if <code>objective</code> or <code>data</code> are <code>null</code>
      */
-    public PermutationProblem(Objective<? super PermutationSolution, ? super DataType> objective, DataType data) {
-        super(objective, data, rnd -> {
+    public PermutationProblem(DataType data, Objective<? super PermutationSolution, ? super DataType> objective) {
+        // already checks that objective is not null
+        super(data, objective, (r,d) -> {
             // create list with all IDs
-            List<Integer> ids = new ArrayList<>(data.getIDs());
+            List<Integer> ids = new ArrayList<>(d.getIDs());
             // shuffle IDs
-            Collections.shuffle(ids, rnd);
+            Collections.shuffle(ids, r);
             // create and return permutation solution
             return new PermutationSolution(ids);
         });

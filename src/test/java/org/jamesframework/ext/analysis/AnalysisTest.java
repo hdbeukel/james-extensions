@@ -297,7 +297,7 @@ public class AnalysisTest {
         // create subset problem
         SumOfScoresFakeSubsetObjective obj = new SumOfScoresFakeSubsetObjective();
         ScoredFakeSubsetData data = new ScoredFakeSubsetData(new double[]{0.1,0.2,0.3,0.4,0.5});
-        SubsetProblem<ScoredFakeSubsetData> problem = new SubsetProblem<>(obj, data, 3);
+        SubsetProblem<ScoredFakeSubsetData> problem = new SubsetProblem<>(data, obj, 3);
         
         // add problem to analysis
         analysis.addProblem("problem", problem);
@@ -351,10 +351,10 @@ public class AnalysisTest {
         
         // create subset problems with different data sets
         ScoredFakeSubsetData data1 = new ScoredFakeSubsetData(new double[]{0.1,0.2,0.3,0.4,0.5});
-        SubsetProblem<ScoredFakeSubsetData> p1 = new SubsetProblem<>(obj, data1, 3);
+        SubsetProblem<ScoredFakeSubsetData> p1 = new SubsetProblem<>(data1, obj, 3);
         
         ScoredFakeSubsetData data2 = new ScoredFakeSubsetData(new double[]{4.1,1.2,5.3,8.4,2.5,12.2,0.4});
-        SubsetProblem<ScoredFakeSubsetData> p2 = new SubsetProblem<>(obj, data2, 4);
+        SubsetProblem<ScoredFakeSubsetData> p2 = new SubsetProblem<>(data2, obj, 4);
         
         // add problems to analysis
         analysis.addProblem("small", p1);

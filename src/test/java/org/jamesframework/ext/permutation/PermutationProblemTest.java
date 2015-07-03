@@ -64,7 +64,7 @@ public class PermutationProblemTest {
         for(int i=10; i<100; i+=10){
             DummyData data = new DummyData(i);
             DummyObjective obj = new DummyObjective();
-            PermutationProblem<DummyData> problem = new PermutationProblem<>(obj, data);
+            PermutationProblem<DummyData> problem = new PermutationProblem<>(data, obj);
             List<Integer> exp = new ArrayList<>(data.getIDs());
             Collections.sort(exp);
             for(int j=0; j<100; j++){
