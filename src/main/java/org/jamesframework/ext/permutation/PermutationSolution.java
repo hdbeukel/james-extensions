@@ -102,9 +102,8 @@ public class PermutationSolution extends Solution {
             throw new SolutionModificationException("Error while modifying permutation solution: swapped positions should be positive "
                                                     + "and smaller than the number of items in the permutation.", this);
         }
-        int tmp = order.get(i);
-        order.set(i, order.get(j));
-        order.set(j, tmp);
+        // swap items
+        Collections.swap(order, i, j);
     }
     
     /**
