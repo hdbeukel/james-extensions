@@ -186,14 +186,6 @@ public class PermutationSolutionTest {
         
         boolean thrown = false;
         try{
-            sol.swap(3, 3);
-        } catch(SolutionModificationException ex){
-            thrown = true;
-        }
-        assertTrue(thrown);
-        
-        thrown = false;
-        try{
             sol.swap(-1, 3);
         } catch(SolutionModificationException ex){
             thrown = true;

@@ -9,6 +9,7 @@ Version 1.1 (under development)
    The problem definition includes a default, easily customizable,
    random permutation solution generator.
  - Reordered arguments in `PermutationProblem` constructor.
+ - Various improvements.
 
 Version 1.0 (17/06/2015)
 ------------------------
