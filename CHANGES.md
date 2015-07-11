@@ -1,6 +1,11 @@
 JAMES Extensions Module Changes
 ===============================
 
+Version 1.1.1 (under development)
+---------------------------------
+
+ - ...
+ 
 Version 1.1 (11/07/2015)
 ------------------------
 
