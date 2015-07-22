@@ -80,5 +80,10 @@ public class WeightedIndexEvaluation implements Evaluation {
     public double getValue() {
         return weightedSum;
     }
+    
+    @Override
+    public String toString(){
+        return getValue() + "";
+    }
 
 }
