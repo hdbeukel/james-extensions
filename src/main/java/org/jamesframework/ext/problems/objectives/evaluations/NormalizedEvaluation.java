@@ -38,7 +38,7 @@ public class NormalizedEvaluation implements Evaluation {
      * Create a normalized evaluation that wraps the given evaluation
      * and normalizes its values from [min, max] to [0, 1].
      * 
-     * @param eval wrapped evaluation
+     * @param eval original, unnormalized evaluation
      * @param min lower bound of normalization interval
      * @param max upper bound of normalization interval
      */

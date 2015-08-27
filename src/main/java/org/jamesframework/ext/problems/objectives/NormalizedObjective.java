@@ -16,6 +16,7 @@
 
 package org.jamesframework.ext.problems.objectives;
 
+import org.jamesframework.core.exceptions.IncompatibleDeltaEvaluationException;
 import org.jamesframework.core.problems.objectives.Objective;
 import org.jamesframework.core.problems.objectives.evaluations.Evaluation;
 import org.jamesframework.core.problems.sol.Solution;
@@ -31,6 +32,8 @@ import org.jamesframework.ext.problems.objectives.evaluations.NormalizedEvaluati
  * Both methods used for full and delta evaluation return a {@link NormalizedEvaluation}.
  * 
  * @author <a href="mailto:herman.debeukelaer@ugent.be">Herman De Beukelaer</a>
+ * @param <SolutionType> solution type to be evaluated, required to extend {@link Solution}
+ * @param <DataType> underlying data type
  */
 public class NormalizedObjective<SolutionType extends Solution, DataType> implements Objective<SolutionType, DataType> {
 
@@ -43,9 +46,9 @@ public class NormalizedObjective<SolutionType extends Solution, DataType> implem
      * Create a normalized objective that wraps the given objective and normalizes all produced
      * evaluation from [min, max] to [0, 1].
      * 
-     * @param obj
-     * @param min
-     * @param max 
+     * @param obj original, unnormalized objective
+     * @param min lower bound of normalization interval
+     * @param max upper bound of normalization interval
      */
     public NormalizedObjective(Objective<? super SolutionType, ? super DataType> obj, double min, double max) {
         this.obj = obj;
@@ -109,8 +112,8 @@ public class NormalizedObjective<SolutionType extends Solution, DataType> implem
      * @param <ActualSolutionType> the actual solution type of the problem that is being solved;
      *                             a subtype of the solution types of both the objective and the applied move
      * @return evaluation of modified solution obtained when applying the move to the current solution
-     * @throws IncompatibleDeltaEvaluationException if the provided delta evaluation is not compatible
-     *                                              with the received move type
+     * @throws IncompatibleDeltaEvaluationException if the delta evaluation of the original objective
+     *                                              is not compatible with the received move type
      */
     @Override
     public <ActualSolutionType extends SolutionType> NormalizedEvaluation evaluate(Move<? super ActualSolutionType> move,
