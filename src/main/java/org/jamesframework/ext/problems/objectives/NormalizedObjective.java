@@ -49,8 +49,15 @@ public class NormalizedObjective<SolutionType extends Solution, DataType> implem
      * @param obj original, unnormalized objective
      * @param min lower bound of normalization interval
      * @param max upper bound of normalization interval
+     * @throws NullPointerException if <code>obj</code> is <code>null</code>
      */
     public NormalizedObjective(Objective<? super SolutionType, ? super DataType> obj, double min, double max) {
+        // check
+        if(obj == null){
+            throw new NullPointerException("Error while initializing normalized objective: wrapped objective "
+                                         + "can not be null.");
+        }
+        // store
         this.obj = obj;
         this.min = min;
         this.max = max;
