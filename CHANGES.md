@@ -1,11 +1,11 @@
 JAMES Extensions Module Changes
 ===============================
 
-Version 1.1.1 (under development)
----------------------------------
+Version 1.1.1 (28/08/2015)
+--------------------------
 
  - Added `NormalizedObjective` wrapper.
- - Added `toString` implementations to various components.
+ - Added `toString` implementations to several components.
  - Various small improvements.
  
 Version 1.1 (11/07/2015)
