@@ -18,6 +18,7 @@ package org.jamesframework.ext.problems.objectives;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.jamesframework.core.problems.objectives.Objective;
 import org.jamesframework.core.problems.sol.Solution;
 import org.jamesframework.core.problems.objectives.evaluations.Evaluation;
@@ -157,6 +158,17 @@ public class WeightedIndex<SolutionType extends Solution, DataType> implements O
         return newEval;
     }
     
-    
+    /**
+     * Create string representation that points out the
+     * included objectives and corresponding weights.
+     * 
+     * @return string representation
+     */
+    @Override
+    public String toString(){
+        return weights.keySet().stream()
+                               .map(obj -> "("+ obj + ", " + weights.get(obj) + ")")
+                               .collect(Collectors.joining(", ", "Weighted index: ", ""));
+    }
 
 }

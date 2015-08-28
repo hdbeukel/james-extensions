@@ -246,4 +246,22 @@ public class NormalizedObjectiveTest {
         
     }
     
+    @Test
+    public void testToString(){
+        
+        System.out.println(" - test toString");
+        
+        double min = 5.0, max = 8.0, val = 7.5;
+        
+        // note: provided toString implementation becomes obsolete when core v1.2 is released
+        FixedEvaluationObjectiveStub orig = new FixedEvaluationObjectiveStub(val){
+            @Override
+            public String toString(){ return "Fixed evaluation"; }
+        };
+        NormalizedObjective<Solution, Object> normalized = new NormalizedObjective<>(orig, min, max);
+        
+        assertEquals("\"Fixed evaluation\" normalized from [5.0, 8.0] to [0, 1]", normalized.toString());
+        
+    }
+    
 }

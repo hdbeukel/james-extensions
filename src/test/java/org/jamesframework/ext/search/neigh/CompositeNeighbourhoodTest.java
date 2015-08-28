@@ -70,8 +70,18 @@ public class CompositeNeighbourhoodTest {
         /*****************************************************/
         
         neighs = new ArrayList<>();
-        neighs.add(new SingleSwapNeighbourhood());
-        neighs.add(new SinglePerturbationNeighbourhood(MIN_SUBSET_SIZE, MAX_SUBSET_SIZE));
+        neighs.add(new SingleSwapNeighbourhood(){
+            @Override
+            public String toString(){
+                return "Single swap (subset)";
+            }
+        });
+        neighs.add(new SinglePerturbationNeighbourhood(MIN_SUBSET_SIZE, MAX_SUBSET_SIZE){
+            @Override
+            public String toString(){
+                return "Single perturbation (subset)";
+            }
+        });
         
         // init IDs
         IDs = new HashSet<>();
@@ -292,6 +302,24 @@ public class CompositeNeighbourhoodTest {
             assertTrue(moves.containsAll(swapMoves));
             assertTrue(moves.containsAll(pertMoves));
         }
+        
+    }
+    
+    @Test
+    public void testToString(){
+        
+        System.out.println(" - test toString");
+        
+        // weights (80, 20)
+        double swapWeight = 80.0;
+        double pertWeight = 20.0;
+        Neighbourhood<SubsetSolution> compositeNeigh = new CompositeNeighbourhood<>(
+                                                                neighs,
+                                                                Arrays.asList(swapWeight, pertWeight)
+        );
+        
+        assertEquals("Composite: (Single swap (subset), 80.0), (Single perturbation (subset), 20.0)",
+                     compositeNeigh.toString());
         
     }
 

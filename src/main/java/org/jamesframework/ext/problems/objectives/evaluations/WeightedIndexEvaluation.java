@@ -81,6 +81,11 @@ public class WeightedIndexEvaluation implements Evaluation {
         return weightedSum;
     }
     
+    /**
+     * Format value as string.
+     * 
+     * @return string version of value
+     */
     @Override
     public String toString(){
         return getValue() + "";

@@ -77,5 +77,15 @@ public class ReverseSubsequenceNeighbourhood implements Neighbourhood<Permutatio
         }
         return moves;
     }
+    
+    /**
+     * Get string indicating neighbourhood type.
+     * 
+     * @return string representation
+     */
+    @Override
+    public String toString(){
+        return "Reverse subsequence (permutation)";
+    }
 
 }

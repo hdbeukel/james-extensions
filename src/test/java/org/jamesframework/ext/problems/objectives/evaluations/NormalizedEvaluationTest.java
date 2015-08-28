@@ -92,4 +92,18 @@ public class NormalizedEvaluationTest {
         
     }
     
+    @Test
+    public void testToString(){
+        
+        System.out.println(" - test toString");
+        
+        double min = 5, max = 8, val = 7.5;
+        
+        Evaluation orig = () -> val;
+        NormalizedEvaluation normalized = new NormalizedEvaluation(orig, min, max);
+        
+        assertEquals("0.8333333333333334 (unnormalized: 7.5)", normalized.toString());
+        
+    }
+    
 }

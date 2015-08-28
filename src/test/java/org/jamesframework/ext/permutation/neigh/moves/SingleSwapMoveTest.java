@@ -116,5 +116,15 @@ public class SingleSwapMoveTest {
         assertNotEquals(m1, "Trudy");
         
     }
+    
+    @Test
+    public void testToString(){
+
+        System.out.println(" - test toString");
+
+        SingleSwapMove move = new SingleSwapMove(2, 5);
+        assertEquals("Swap items at positions (2, 5) in permutation solution", move.toString());
+
+    }
 
 }

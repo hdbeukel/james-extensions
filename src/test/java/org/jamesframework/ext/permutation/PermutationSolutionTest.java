@@ -244,5 +244,15 @@ public class PermutationSolutionTest {
         }
         
     }
+    
+    @Test
+    public void testToString(){
+        
+        System.out.println(" - test toString");
+        
+        PermutationSolution sol = new PermutationSolution(Arrays.asList(1,2,3,4,5));
+        assertEquals("Permutation solution: {1, 2, 3, 4, 5}", sol.toString());
+        
+    }
 
 }

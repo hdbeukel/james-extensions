@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import org.jamesframework.core.exceptions.SolutionModificationException;
 import org.jamesframework.core.problems.sol.Solution;
 
@@ -96,7 +97,7 @@ public class PermutationSolution extends Solution {
      * @return size of this permutation
      */
     public int size(){
-        return order.size();
+        return getOrder().size();
     }
     
     /**
@@ -129,7 +130,7 @@ public class PermutationSolution extends Solution {
     @Override
     public PermutationSolution copy() {
         // skip input checks, we know it's valid
-        return new PermutationSolution(order, false);
+        return new PermutationSolution(getOrder(), false);
     }
 
     /**
@@ -148,7 +149,7 @@ public class PermutationSolution extends Solution {
             return false;
         }
         final PermutationSolution otherPerm = (PermutationSolution) other;
-        return Objects.equals(this.order, otherPerm.order);
+        return Objects.equals(getOrder(), otherPerm.getOrder());
     }
 
     /**
@@ -159,8 +160,21 @@ public class PermutationSolution extends Solution {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.order);
+        hash = 29 * hash + Objects.hashCode(getOrder());
         return hash;
     }
 
+    /**
+     * Create a string representation of the permutation solution,
+     * indicating the current order of IDs.
+     * 
+     * @return string representation
+     */
+    @Override
+    public String toString(){
+        return getOrder().stream()
+                         .map(Object::toString)
+                         .collect(Collectors.joining(", ", "Permutation solution: {", "}"));
+    }
+    
 }

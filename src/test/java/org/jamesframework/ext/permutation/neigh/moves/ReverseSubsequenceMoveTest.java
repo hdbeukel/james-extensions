@@ -119,5 +119,15 @@ public class ReverseSubsequenceMoveTest {
         assertNotEquals(m1, "abc");
         
     }
+    
+    @Test
+    public void testToString(){
+
+        System.out.println(" - test toString");
+
+        ReverseSubsequenceMove move = new ReverseSubsequenceMove(2, 5);
+        assertEquals("Reverse subsequence (2, 5) in permutation solution", move.toString());
+
+    }
 
 }

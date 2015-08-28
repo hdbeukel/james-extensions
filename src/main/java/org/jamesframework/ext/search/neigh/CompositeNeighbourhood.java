@@ -138,5 +138,23 @@ public class CompositeNeighbourhood<SolutionType extends Solution> implements Ne
                      .flatMap(neigh -> neigh.getAllMoves(solution).stream()) // flatten to one stream of all moves
                      .collect(Collectors.toList());                          // collect in one list
     }
+    
+    /**
+     * Create string representation that indicates the
+     * contained neighbourhoods and respective weights.
+     * 
+     * @return string representation
+     */
+    @Override
+    public String toString(){
+        String res = "Composite: ";
+        for(int i=0; i<neighs.size(); i++){
+            res += "(" + neighs.get(i) + ", " + weights.get(i) + ")";
+            if(i < neighs.size()-1){
+                res += ", ";
+            }
+        }
+        return res;
+    }
 
 }

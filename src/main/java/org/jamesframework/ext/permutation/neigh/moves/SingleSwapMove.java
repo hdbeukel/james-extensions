@@ -30,7 +30,8 @@ public class SingleSwapMove implements Move<PermutationSolution>{
     private final int i, j;
 
     /**
-     * Create a single swap move given the two positions in the permutation at which items are to be swapped.
+     * Create a single swap move given the two positions in the permutation
+     * at which items are to be swapped.
      * 
      * @param i position of first item to be swapped
      * @param j position of second item to be swapped
@@ -112,4 +113,14 @@ public class SingleSwapMove implements Move<PermutationSolution>{
         return hash;
     }
 
+    /**
+     * Get string indicating move type and positions of swapped items.
+     * 
+     * @return string representation
+     */
+    @Override
+    public String toString(){
+        return String.format("Swap items at positions (%d, %d) in permutation solution", i, j);
+    }
+    
 }

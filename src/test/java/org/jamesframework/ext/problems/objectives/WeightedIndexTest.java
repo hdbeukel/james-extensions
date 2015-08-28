@@ -23,7 +23,9 @@ import org.jamesframework.core.problems.objectives.evaluations.Evaluation;
 import org.jamesframework.core.subset.SubsetSolution;
 import org.jamesframework.core.subset.neigh.moves.SubsetMove;
 import org.jamesframework.core.subset.neigh.moves.SwapMove;
+import org.jamesframework.test.fakes.ScoredFakeSubsetData;
 import org.jamesframework.test.fakes.SumOfIDsFakeSubsetObjective;
+import org.jamesframework.test.fakes.SumOfScoresFakeSubsetObjective;
 import org.jamesframework.test.stubs.EmptySolutionStub;
 import org.jamesframework.test.stubs.FixedEvaluationObjectiveStub;
 import org.jamesframework.test.util.TestConstants;
@@ -287,6 +289,42 @@ public class WeightedIndexTest {
         // verify
         assertEquals(eval.getValue(), fullEval.getValue(), TestConstants.DOUBLE_COMPARISON_PRECISION);
 
+    }
+    
+    @Test
+    public void testToString(){
+        
+        System.out.println(" - test toString");
+        
+        // create weighted objective
+        WeightedIndex<SubsetSolution, ScoredFakeSubsetData> weighted = new WeightedIndex<>();
+        // create some objectives
+        // note: provided toString implementations become obsolete when core v1.2 is released
+        FixedEvaluationObjectiveStub obj1 = new FixedEvaluationObjectiveStub(1.0){
+            @Override
+            public String toString(){ return "Fixed evaluation"; }
+        };
+        SumOfIDsFakeSubsetObjective obj2 = new SumOfIDsFakeSubsetObjective(){
+            @Override
+            public String toString(){ return "Sum of IDs"; }
+        };;
+        SumOfScoresFakeSubsetObjective obj3 = new SumOfScoresFakeSubsetObjective(){
+            @Override
+            public String toString(){ return "Sum of scores"; }
+        };;
+        
+        // add objectives with positive weights
+        double weight1 = 2.0;
+        double weight2 = 1.5;
+        double weight3 = 4.2;
+        weighted.addObjective(obj1, weight1);
+        weighted.addObjective(obj2, weight2);
+        weighted.addObjective(obj3, weight3);
+
+        assertEquals("Weighted index: (Fixed evaluation, 2.0), "
+                   + "(Sum of IDs, 1.5), (Sum of scores, 4.2)",
+                     weighted.toString());
+        
     }
 
 }

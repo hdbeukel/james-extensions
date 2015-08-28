@@ -69,4 +69,14 @@ public class NormalizedEvaluation implements Evaluation {
         return eval;
     }
     
+    /**
+     * Format value as string. Unnormalized value is included between brackets.
+     * 
+     * @return string version of normalized and original value
+     */
+    @Override
+    public String toString(){
+        return String.format("%s (unnormalized: %s)", getValue(), eval.getValue());
+    }
+    
 }

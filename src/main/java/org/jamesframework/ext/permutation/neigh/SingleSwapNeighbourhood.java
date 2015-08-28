@@ -74,5 +74,15 @@ public class SingleSwapNeighbourhood implements Neighbourhood<PermutationSolutio
         }
         return moves;
     }
+    
+    /**
+     * Get string indicating neighbourhood type.
+     * 
+     * @return string representation
+     */
+    @Override
+    public String toString(){
+        return "Single swap (permutation)";
+    }
 
 }

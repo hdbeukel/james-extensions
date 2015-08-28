@@ -135,5 +135,15 @@ public class ReverseSubsequenceMove implements Move<PermutationSolution>{
         hash = 41 * hash + this.to;
         return hash;
     }
+    
+    /**
+     * Get string indicating move type and bounds of reversed subsequence.
+     * 
+     * @return string representation
+     */
+    @Override
+    public String toString(){
+        return String.format("Reverse subsequence (%d, %d) in permutation solution", from, to);
+    }
 
 }

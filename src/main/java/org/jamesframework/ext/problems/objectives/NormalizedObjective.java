@@ -16,6 +16,7 @@
 
 package org.jamesframework.ext.problems.objectives;
 
+import java.util.Locale;
 import org.jamesframework.core.exceptions.IncompatibleDeltaEvaluationException;
 import org.jamesframework.core.problems.objectives.Objective;
 import org.jamesframework.core.problems.objectives.evaluations.Evaluation;
@@ -150,6 +151,18 @@ public class NormalizedObjective<SolutionType extends Solution, DataType> implem
     @Override
     public boolean isMinimizing() {
         return obj.isMinimizing();
+    }
+    
+    /**
+     * Create string representation of normalized objective, indicating
+     * the original, unnormalized objective and normalization interval.
+     * 
+     * @return string representation
+     */
+    @Override
+    public String toString(){
+        String interval = "[" + min + ", " + max + "]";
+        return String.format("\"%s\" normalized from %s to [0, 1]", obj, interval);
     }
     
 }
